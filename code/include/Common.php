@@ -1,7 +1,7 @@
 <?php
 	// date_default_timezone_set('Asia/Kolkata');
 	//Set error reporting to display only fatal errors
-	//  error_reporting(~E_ALL & ~E_NOTICE & ~E_WARNING);
+	  error_reporting(~E_ALL & ~E_NOTICE & ~E_WARNING);
 	//Initialize start time, needed to calculate timeInMillis while sending back response
 	$start = microtime(true);
 	try
