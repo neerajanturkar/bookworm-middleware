@@ -14,8 +14,7 @@
 
 
         $json_book = json_decode($data);
-//        print_r($json_book);
-//        print_r("sdad");
+
         if($json_book->totalItems > 0) {
             $response->success = true;
             $response->message = "Book Details Fetched successfully";
@@ -28,7 +27,7 @@
             $response->publishedDate = $json_book->items[0]->volumeInfo->publishedDate;
             $response->pageCount = $json_book->items[0]->volumeInfo->pageCount;
             $response->language = $json_book->items[0]->volumeInfo->language;
-            $response->imageLinks = $json_book->items[0]->volumeInfo->imageLinks;
+            $response->thumbnail = $json_book->items[0]->volumeInfo->imageLinks->thumbnail;
             OutputResponse($response);
         }else{
             $response->success = false;
