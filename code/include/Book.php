@@ -11,37 +11,58 @@ class Book{
         $this->con = $db->connect();		
     }   
 
-    public function get_all_books(){
-         $sql = "CALL show_books('%');";
+    public function get_all_books($inputdata){
+
+         if(array_key_exists('like', $inputdata)){
+             $like = "%".$inputdata['like']."%";
+         }else{
+             $like = "%";
+         }
+         $sql = "CALL show_books('".$like."');";
          $stmt = $this->con->query($sql);
          $details = $stmt->fetch_all();
+
+
+         $this->con->close();
+         unset($obj);
+         unset($sql);
+         unset($query);
          $data = array();
          foreach($details as $row){
-                $d['title'] = $row[0];
-                $d['isbn'] = $row[1];
-                $d['author_firstname'] = $row[2];
-                $d['author_lastname'] = $row[3];
-                array_push($data,$d);
+                $r['title'] = $row[0];
+                $r['subtitle'] = $row[1];
+                $r['publication'] = $row[2];
+                $r['isbn'] = $row[3];
+                $r['description'] = $row[4];
+                $r['published_date'] = $row[5];
+                $r['page_count'] = $row[6];
+                $r['language'] = $row[7];
+                $r['thumbnail'] = $row[8];
+                $r['authors'] = $row[9];
+                $r['type'] = $row[11];
+
+
+
+             $db = new DbConnect();
+             $this->con = $db->connect();
+
+             $sql = "SELECT BIN_TO_UUID(book_id) as book_id, is_locked , is_borrowed , location FROM catalog WHERE isbn = '".$r['isbn']."';";
+
+                $stmt = $this->con->prepare($sql);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $data1 = array();
+                while ($row = $result->fetch_assoc()) {
+
+                     array_push($data1, $row);
+                }
+                $r['copies'] = $data1;
+                array_push($data,$r);
             }
 
-         $result = array();
-  
-         foreach ($data as $row){
-             $key = array_search($row['isbn'], array_column($result, 'isbn'));
 
-             if($key === false) {
-
-                 $r['title'] = $row['title'];
-                 $r['isbn'] = $row['isbn'];
-                 $r['author'] = $row['author_firstname']." ".$row['author_lastname'];
-                 array_push($result,$r);
-
-             }else{
-                $result[$key]['author'] = $result[$key]['author'].",".$row['author_firstname']." ".$row['author_lastname'];
-             }
-         }
-        
-         return $result;
+         $stmt->close();
+         return $data;
     }
     public function add_book($inputdata){
 
@@ -103,6 +124,7 @@ class Book{
             else{
                 $response = false;
             }
+            $stmt->close();
         }catch (Exception $ex){
             print_r($ex);
         }
