@@ -72,3 +72,6 @@ class User
     }
 }
 ?>
+
+<!--select * from catalog-->
+<!--where book_id = UUID_TO_BIN('3e10d1f2-78fc-11e9-a24d-b76bf381abd6');-->

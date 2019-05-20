@@ -116,20 +116,50 @@ class Book{
                 .$isbn."','".$cnt."','"
                 .$author."');";
 
-
+            print_r($sql);
             $stmt = $this->con->query($sql);
+            print_r($stmt);
             if($stmt === true){
                 $response = true;
             }
             else{
                 $response = false;
             }
-            $stmt->close();
+            $this->con->close();
         }catch (Exception $ex){
             print_r($ex);
         }
 
         return $response;
+    }
+
+    public function borrow_book($inputdata){
+        try{
+            $book_id = $inputdata['book_id'];
+            $user_id = $inputdata['user_id'];
+            $doi = date("Y-m-d");
+            $sql = "SELECT get_date_of_return('".$doi."',".$user_id.") as dor;";
+            $stmt = $this->con->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->get_result()->fetch_assoc();
+            $stmt->close();
+            $dor = $result['dor'];
+
+            $sql1 = "CALL borrow_book(".$book_id.",".$user_id.",'".$doi."','".$dor."',@success);";
+            $stmt1 = $this->con->query($sql1);
+
+
+            $select = $this->con->query('SELECT @success');
+            $result = $select->fetch_assoc();
+            $success = $result['@success'];
+
+            return $success;
+        }catch(Exception $ex ){
+            echo $ex;
+            return 0;
+        }
+
+
     }
 }
 ?>
