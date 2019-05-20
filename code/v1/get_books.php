@@ -12,7 +12,7 @@
             $response->responseCode = 200;
             $response->data = $data;
         }else{
-            $response->success = true;
+            $response->success = false;
             $response->message = "Failed to fetch books";
             $response->responseCode = 200;
         }

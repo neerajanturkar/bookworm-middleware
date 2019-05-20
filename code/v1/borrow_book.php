@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . "/../include/Book.php";
             $response->message = "Book borrowed successfully";
             $response->responseCode = 200;
         }else{
-            $response->success = true;
+            $response->success = false;
             $response->message = "Failed to borrow book";
             $response->responseCode = 200;
         }
@@ -20,7 +20,7 @@ require_once dirname(__FILE__) . "/../include/Book.php";
     } catch (Exception $exception){
 
         print_r($exception);
-        $response->success = true;
+        $response->success = false;
         $response->message = "Failed to borrow book";
         $response->responseCode = 200;
     }

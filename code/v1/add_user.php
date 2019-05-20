@@ -12,7 +12,7 @@
             $response->message = "User added successfully";
             $response->responseCode = 200;
         }else{
-            $response->success = true;
+            $response->success = false;
             $response->message = "Failed to add user";
             $response->responseCode = 200;
         }

@@ -12,7 +12,7 @@
             $response->message = "Book added successfully";
             $response->responseCode = 200;
         }else{
-            $response->success = true;
+            $response->success = false;
             $response->message = "Failed to add book";
             $response->responseCode = 200;
         }

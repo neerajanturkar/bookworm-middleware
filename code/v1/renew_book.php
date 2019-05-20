@@ -5,14 +5,14 @@ try {
     verifyRequiredParams(array('book_id', 'user_id'), $inputdata);
 
     $book = new Book();
-    $result = $book->return_book($inputdata);
+    $result = $book->renew_book($inputdata);
     if($result == 1){
         $response->success = true;
-        $response->message = "Book returned successfully";
+        $response->message = "Book renewed successfully";
         $response->responseCode = 200;
     }else{
         $response->success = false;
-        $response->message = "Failed to return book";
+        $response->message = "Failed to renew book";
         $response->responseCode = 200;
     }
 
@@ -21,7 +21,7 @@ try {
 
     print_r($exception);
     $response->success = false;
-    $response->message = "Failed to return book";
+    $response->message = "Failed to renew book";
     $response->responseCode = 200;
 }
 OutputResponse($response);
