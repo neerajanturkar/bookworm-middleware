@@ -161,5 +161,27 @@ class Book{
 
 
     }
+    public function return_book($inputdata){
+        try{
+            $book_id = $inputdata['book_id'];
+            $user_id = $inputdata['user_id'];
+            $dor = date("Y-m-d");
+
+            $sql = "CALL return_book(".$book_id.",".$user_id.",'".$dor."',@success);";
+            $stmt = $this->con->query($sql);
+
+
+            $select = $this->con->query('SELECT @success');
+            $result = $select->fetch_assoc();
+            $success = $result['@success'];
+
+            return $success;
+        }catch(Exception $ex ){
+            echo $ex;
+            return 0;
+        }
+
+
+    }
 }
 ?>
