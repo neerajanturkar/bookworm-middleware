@@ -1,0 +1,182 @@
+.jumbotron.jumbotron-fluid {
+    background-color: #F57C00;
+    padding: 15px;
+    margin: 0px;
+    
+    width:100%;
+    z-index: 999;
+}
+i.fa.fa-book {
+    color: white;
+    font-size: 30px;
+    display: inline;
+}
+.white-custom{
+    color: white;
+    padding: 20px;
+    margin: 0px;
+    display: inline;
+}
+.login-form {
+    width: 40%;}
+/*login from */
+.container-fluid-image-custom {
+    /* padding: 0 0 0 125px; */
+    margin: 0;
+    background-image: url(images/image4.png);
+    height: 595px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.login-custom{
+    background-color: rgb(0,0,0,0.5);
+    max-width: 100%;
+    margin: 0 auto;
+	flex:auto;
+	padding: 30px;
+}
+.outer-line{
+    position: absolute;
+    width: 83%;
+    height: 63%;
+    border: 2px solid #040404;
+    display: flex;
+    justify-content: center;
+    /* left: 15px; */
+    right: 411px;
+    bottom: 115px;
+    background: black;
+    opacity: .4;
+}
+.text-color{
+    color: white;
+}
+.login-button{
+    background: transparent;
+    border-color: white;
+    border-radius: 0;
+}
+
+/* footer */
+footer{
+    background-color: black;
+    padding: 2px;
+}
+.p-footer {
+    color: white;
+    text-align: center;
+}
+
+/* ADD Books CSS */
+
+/* navbar */
+
+a.nav-link {
+    color: white;
+}
+.navbar-expand-lg .navbar-nav .nav-link {
+    font-weight: 600;
+    float: right;
+    padding-right: 35px;
+    padding-left: 12px;
+}
+.nav-link {
+    padding: 0px;
+}
+li.nav-item.logout-custom {
+    float: left;
+    padding-left: 110px;
+}
+
+li.nav-item.active {
+    background-color: #F57C00;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+}
+li.nav-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+li.nav-item1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+li.nav-item:hover {
+    background-color: #F57C00;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.navbar-custom-1{
+    padding: 0px;
+}
+.fixedHeaderClass{
+    position:fixed;
+    top:0px;
+    z-index: 1;
+    /*box-shadow: 0px 0px 9px 0px;*/
+    transition-timing-function: ease;
+    width:100%;
+}
+.container-fluid-custom{
+    display: flex;
+    justify-content: center;
+}
+.col-sm-9-custom{
+    padding: 0px;
+}
+.col-sm-3-custom{
+    padding: 0px;
+}
+.navbar-custom-2{
+    padding: 0.5rem 6rem;
+}
+.nav-link.disabled {
+    color: #dbdcdd;
+}
+.container-custom{
+    padding-right: 227px;
+}
+.add-book-custom{
+    max-width: 100%;
+    margin: 0 auto;
+	flex:auto;
+	padding: 5px;
+}
+.add-book-custom{
+    margin-top: 20px;
+}
+.btn-lookup{
+    margin-top: 92px;
+    margin-left: 20px;
+}
+.img-lookup-custom{
+    width: 60%;
+    height: 12%;
+    margin-top: 92px;
+    margin-left: 20px;
+}
+.container-fluid-bgcolor{
+    background-color: #FF9800;
+}
+.btn-custom{
+    background-color: #FF9800;
+    color: white;
+}
+.btn-custom:hover{
+    color: white;
+    background-color: #F57C00;
+}
+div#nav-header {
+    padding-top: 0px;
+    background-color: #ff9800;
+}
