@@ -46,7 +46,7 @@ class Book{
              $db = new DbConnect();
              $this->con = $db->connect();
 
-             $sql = "SELECT BIN_TO_UUID(book_id) as book_id, is_locked , is_borrowed , location FROM catalog WHERE isbn = '".$r['isbn']."';";
+             $sql = "SELECT book_id as book_id, is_locked , is_borrowed , location FROM catalog WHERE isbn = '".$r['isbn']."';";
 
                 $stmt = $this->con->prepare($sql);
                 $stmt->execute();

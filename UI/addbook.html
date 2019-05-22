@@ -13,6 +13,40 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   <link rel="stylesheet" href="library.css">
   <script type="text/javascript" src="library.js"></script>
+    <script>
+        // function showHint(str) {
+        //     var obj;
+        //     if (str.length != 13) {
+        //         document.getElementById("title").innerHTML = "";
+        //         return;
+        //     } else {
+        //         var xmlhttp = new XMLHttpRequest();
+        //         xmlhttp.onreadystatechange = function() {
+        //             if (this.readyState == 4 && this.status == 200) {
+        //                 console.log(this.response);
+        //                 obj = JSON.parse(this.response);
+        //                 console.log(obj);
+        //                 document.getElementById("title").value = obj.title;
+        //                 document.getElementById("subtitle").value = obj.subtitle;
+        //                 document.getElementById("publication").value = obj.publication;
+        //
+        //                 document.getElementById("start").value = obj.publishedDate;
+        //                 document.getElementById("publication").value = obj.publication;
+        //                 document.getElementById("thumbnail").src = obj.thumbnail;
+        //                 document.getElementById("language").value = obj.language;
+        //                 document.getElementById("authors").value = obj.authors;
+        //                 document.getElementById("discription").value = obj.description;
+        //
+        //             }
+        //         };
+        //         xmlhttp.open("GET", "http://localhost/bookworm-middleware/code/v1/get_book_data_from_isbn.php?isbn=" + str, true);
+        //         xmlhttp.setRequestHeader("Content-type", "application/json");
+        //         xmlhttp.send();
+        //     }
+        //
+        // }
+
+    </script>
   <style>
     
     </style>
@@ -72,7 +106,7 @@
                             <h2 class="mt-3">Add Book</h2>
                             <div class="form-group">
                                 <label for="isbn">ISBN:</label>
-                                <input type="text" class="form-control" id="isbn" name="text">
+                                <input type="text" class="form-control" id="isbn" name="text" onkeyup="showHint(this.value)" >
                             </div>
                             <div class="form-group">
                                 <label for="title">Title:</label>
@@ -88,7 +122,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="start">Publication date:</label>
-                                <input type="date" id="start" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31">
+                                <input type="date" id="start" name="trip-start" value="2018-07-22">
                             </div>
                             <select name="type" class="custom-select mb-3">
                                 <option selected>Type</option>
@@ -115,11 +149,15 @@
                  </div>
                  <div class="col-sm-3">
                      <div class="add-book-custom">
-                        <button type="submit" class="btn btn-custom btn-lookup">Look Up</button>
+
+                             <label for="authors">Count:</label>
+                             <input type="number" class="form-control" id="count" name="count" value="1">
+
                     </div>
                  </div>
                  <div class="col-sm-3">
-                    <img src="images/image2.jpg" class="img-lookup-custom">
+                    <img  id="thumbnail" class="img-lookup-custom">
+
                 </div>
             </div>
         </div>
