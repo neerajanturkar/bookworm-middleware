@@ -143,6 +143,21 @@ li.nav-item:hover {
 .nav-link.disabled {
     color: #dbdcdd;
 }
+input[class=form-control]:focus {
+    border: 3px solid #FF9800;
+}
+input[type=date]:focus {
+    border: 3px solid #FF9800;
+}
+select[name=type]:focus{
+    border: 3px solid #FF9800;
+}
+textarea[class=form-control]:focus {
+    border: 3px solid #FF9800;
+}
+button[type=submit]:focus{
+    border: 3px solid #F57C00;
+}
 .container-custom{
     padding-right: 227px;
 }
