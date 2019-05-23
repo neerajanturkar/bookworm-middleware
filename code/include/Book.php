@@ -71,7 +71,16 @@ class Book{
             $isbn = $inputdata['isbn'];
             $title = $inputdata['title'];
             $cnt = $inputdata['cnt'];
-            $author = $inputdata['author'];
+            $e_author = $inputdata['e_author'];
+            $n_author = $inputdata['n_author'];
+
+            if(strlen($e_author) == 0){
+                unset($e_author);
+            }
+            if(strlen($n_author) == 0){
+                unset($n_author);
+            }
+
 
             if (array_key_exists('subtitle', $inputdata)) {
                 $subtitle = $inputdata['subtitle'];
@@ -114,9 +123,9 @@ class Book{
                 .$published_date."','".$page_count."','"
                 .$language."','".$thumbnail."','"
                 .$isbn."','".$cnt."','"
-                .$author."');";
+                .$e_author."','".$n_author."');";
 
-            print_r($sql);
+
             $stmt = $this->con->query($sql);
             print_r($stmt);
             if($stmt === true){
@@ -204,6 +213,32 @@ class Book{
         }
 
 
+    }
+    public function  check_authors_exist($inputdata){
+        try{
+            $authors = $inputdata['authors'];
+            $author_array = explode(",",$authors);
+            $exist_authors = array();
+            $new_authors = array();
+            foreach ($author_array as $author){
+                $sql = "CALL check_author_exists('".$author."',@exist);";
+                $stmt = $this->con->query($sql);
+                $select = $this->con->query('SELECT @exist');
+                $result = $select->fetch_assoc();
+                $exist = $result['@exist'];
+                if($exist == 1){
+                    array_push($exist_authors,$author);
+                }else{
+                    array_push($new_authors,$author);
+                }
+            }
+            $res['new_authors'] = $new_authors;
+            $res['exist_authors'] = $exist_authors;
+            return $res;
+
+        }catch (Exception $ex){
+            return null;
+        }
     }
 
 }

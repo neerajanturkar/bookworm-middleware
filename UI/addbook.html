@@ -14,6 +14,25 @@
   <link rel="stylesheet" href="library.css">
   <script type="text/javascript" src="library.js"></script>
     <script>
+        function addBook() {
+            var data = {
+                type:document.getElementById("type").value,
+                title : document.getElementById("title").value,
+                subtitle : document.getElementById("subtitle").value,
+                isbn : document.getElementById("isbn").value,
+                publication : document.getElementById("publication").value,
+                description:document.getElementById("discription").value,
+                published_date:document.getElementById("start").value,
+                language:document.getElementById("language").value,
+                thumbnail:document.getElementById("thumbnail").src,
+                author: document.getElementById("authors").value,
+                cnt:document.getElementById("count").value
+            }
+            console.log(data);
+
+
+
+        }
         // function showHint(str) {
         //     var obj;
         //     if (str.length != 13) {
@@ -102,37 +121,37 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="add-book-custom">
-                        <form action="/action_page.php">
+                        <form action="http://localhost/bookworm-middleware/code/v1/add_book.php">
                             <h2 class="mt-3">Add Book</h2>
                             <div class="form-group">
                                 <label for="isbn">ISBN:</label>
-                                <input type="text" class="form-control" id="isbn" name="text" onkeyup="showHint(this.value)" >
+                                <input type="text" class="form-control" required id="isbn" name="isbn" onkeyup="showHint(this.value)" >
                             </div>
                             <div class="form-group">
                                 <label for="title">Title:</label>
-                                <input type="text" class="form-control" id="title" name="text">
+                                <input type="text" class="form-control" required id="title" name="title">
                             </div>
                             <div class="form-group">
                                 <label for="subtitle">Subtitle:</label>
-                                <input type="text" class="form-control" id="subtitle" name="text">
+                                <input type="text" class="form-control" id="subtitle" name="subtitle">
                             </div>
                             <div class="form-group">
                                 <label for="publication">Publication:</label>
-                                <input type="text" class="form-control" id="publication" name="text">
+                                <input type="text" class="form-control" id="publication" name="publication">
                             </div>
                             <div class="form-group">
                                 <label for="start">Publication date:</label>
                                 <input type="date" id="start" name="trip-start" value="2018-07-22">
                             </div>
-                            <select name="type" class="custom-select mb-3">
-                                <option selected>Type</option>
-                                <option value="purchase">Purchase</option>
-                                <option value="donate">Donate</option>
-                                <option value="loan">Loan</option>
+                            <select name="type" id="type" class="custom-select mb-3">
+                                <option value="0" selected>Type</option>
+                                <option value="1">Purchase</option>
+                                <option value="2">Donate</option>
+                                <option value="3">Loan</option>
                             </select>
                             <div class="form-group">
                                 <label for="discription">Description:</label>
-                                <textarea class="form-control" rows="5" id="discription" name="text"></textarea>
+                                <textarea class="form-control" rows="5" id="discription" name="description"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="language">Language:</label>
@@ -140,23 +159,24 @@
                             </div>
                             <div class="form-group">
                                 <label for="authors">Authors:</label>
-                                <input type="text" class="form-control" id="authors" name="text">
+                                <input type="text" class="form-control" required id="authors" onchange="showExistingAuthors(this.value);" name="text" value=" ">
                             </div>
-                            <button type="submit" class="btn btn-custom">Clear</button>
-                            <button type="submit" class="btn btn-custom">Save</button>
+                            <button type="reset" class="btn btn-custom">Clear</button>
+                            <button type="submit" formmethod="post" class="btn btn-custom">Save</button>
                          </form>
                      </div>
                  </div>
                  <div class="col-sm-3">
                      <div class="add-book-custom">
 
-                             <label for="authors">Count:</label>
+                             <label for="count">Count:</label>
                              <input type="number" class="form-control" id="count" name="count" value="1">
 
                     </div>
+
                  </div>
                  <div class="col-sm-3">
-                    <img  id="thumbnail" class="img-lookup-custom">
+                    <img  id="thumbnail" name="thumbnail" class="img-lookup-custom">
 
                 </div>
             </div>
