@@ -3,7 +3,7 @@
     require_once dirname(__FILE__) . "/../include/Book.php";
     try
     {
-        verifyRequiredParams(array('type','title','publication','cnt','isbn','author'),$inputdata);
+        verifyRequiredParams(array('type','title','publication','cnt','isbn'),$inputdata);
 
         $book = new Book();
         $result = $book->add_book($inputdata);

@@ -13,6 +13,62 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   <link rel="stylesheet" href="library.css">
   <script type="text/javascript" src="library.js"></script>
+    <script>
+        function addBook() {
+            var data = {
+                type:document.getElementById("type").value,
+                title : document.getElementById("title").value,
+                subtitle : document.getElementById("subtitle").value,
+                isbn : document.getElementById("isbn").value,
+                publication : document.getElementById("publication").value,
+                description:document.getElementById("discription").value,
+                published_date:document.getElementById("start").value,
+                language:document.getElementById("language").value,
+                thumbnail:document.getElementById("thumbnail").src,
+                author: document.getElementById("authors").value,
+                cnt:document.getElementById("count").value
+            }
+            console.log(data);
+
+
+
+        }
+        // function showHint(str) {
+        //     var obj;
+        //     if (str.length != 13) {
+        //         document.getElementById("title").innerHTML = "";
+        //         return;
+        //     } else {
+        //         var xmlhttp = new XMLHttpRequest();
+        //         xmlhttp.onreadystatechange = function() {
+        //             if (this.readyState == 4 && this.status == 200) {
+        //                 console.log(this.response);
+        //                 obj = JSON.parse(this.response);
+        //                 console.log(obj);
+        //                 document.getElementById("title").value = obj.title;
+        //                 document.getElementById("subtitle").value = obj.subtitle;
+        //                 document.getElementById("publication").value = obj.publication;
+        //
+        //                 document.getElementById("start").value = obj.publishedDate;
+        //                 document.getElementById("publication").value = obj.publication;
+        //                 document.getElementById("thumbnail").src = obj.thumbnail;
+        //                 document.getElementById("language").value = obj.language;
+        //                 document.getElementById("authors").value = obj.authors;
+        //                 document.getElementById("discription").value = obj.description;
+        //
+        //             }
+        //         };
+        //         xmlhttp.open("GET", "http://localhost/bookworm-middleware/code/v1/get_book_data_from_isbn.php?isbn=" + str, true);
+        //         xmlhttp.setRequestHeader("Content-type", "application/json");
+        //         xmlhttp.send();
+        //     }
+        //
+        // }
+
+    </script>
+  <style>
+    
+    </style>
 </head>
 <body>
     <!-- Header -->
@@ -31,10 +87,10 @@
                 <nav class="navbar navbar-expand-lg navbar-custom-1" id="navbar-default">
                     <ul class="navbar-nav">
                         <li class="nav-item active">
-                             <a class="nav-link nav-item-custom" href="Add-book.html">Add Books</a>
+                             <a class="nav-link nav-item-custom" href="#">Add Books</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="Add-user.html">Add User</a>
+                            <a class="nav-link" href="#">Add User</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="checkIn-checkOut.html">Check-in/Check-out</a>
@@ -65,61 +121,62 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="add-book-custom">
-                        <form action="/action_page.php">
+                        <form action="http://localhost/bookworm-middleware/code/v1/add_book.php">
                             <h2 class="mt-3">Add Book</h2>
                             <div class="form-group">
-                                <label for="isbn">ISBN</label>
-                                <input type="text" class="form-control" id="isbn" name="text" onkeyup="showHint(this.value)" >
+                                <label for="isbn">ISBN:</label>
+                                <input type="text" class="form-control" required id="isbn" name="isbn" onkeyup="showHint(this.value)" >
                             </div>
                             <div class="form-group">
-                                <label for="title">Title</label>
-                                <input type="text" class="form-control" id="title" name="text">
+                                <label for="title">Title:</label>
+                                <input type="text" class="form-control" required id="title" name="title">
                             </div>
                             <div class="form-group">
-                                <label for="subtitle">Subtitle</label>
-                                <input type="text" class="form-control" id="subtitle" name="text">
+                                <label for="subtitle">Subtitle:</label>
+                                <input type="text" class="form-control" id="subtitle" name="subtitle">
                             </div>
                             <div class="form-group">
-                                <label for="publication">Publication</label>
-                                <input type="text" class="form-control" id="publication" name="text">
+                                <label for="publication">Publication:</label>
+                                <input type="text" class="form-control" id="publication" name="publication">
                             </div>
                             <div class="form-group">
-                                <label for="start">Publication date</label>
+                                <label for="start">Publication date:</label>
                                 <input type="date" id="start" name="trip-start" value="2018-07-22">
                             </div>
-                            <select name="type" class="custom-select mb-3">
-                                <option selected>Type</option>
-                                <option value="purchase">Purchase</option>
-                                <option value="donate">Donate</option>
-                                <option value="loan">Loan</option>
+                            <select name="type" id="type" class="custom-select mb-3">
+                                <option value="0" selected>Type</option>
+                                <option value="1">Purchase</option>
+                                <option value="2">Donate</option>
+                                <option value="3">Loan</option>
                             </select>
                             <div class="form-group">
-                                <label for="discription">Description</label>
-                                <textarea class="form-control" rows="5" id="discription" name="text"></textarea>
+                                <label for="discription">Description:</label>
+                                <textarea class="form-control" rows="5" id="discription" name="description"></textarea>
                             </div>
                             <div class="form-group">
-                                <label for="language">Language</label>
+                                <label for="language">Language:</label>
                                 <input type="text" class="form-control" id="language" name="text">
                             </div>
                             <div class="form-group">
-                                <label for="authors">Authors</label>
-                                <input type="text" class="form-control" id="authors" name="text">
+                                <label for="authors">Authors:</label>
+                                <input type="text" class="form-control" required id="authors" onchange="showExistingAuthors(this.value);" name="text" value=" ">
                             </div>
-                            <button type="submit" class="btn btn-custom mt-3 mb-3">Clear</button>
-                            <button type="submit" class="btn btn-custom mt-3 mb-3">Save</button>
+                            <button type="reset" class="btn btn-custom">Clear</button>
+                            <button type="submit" formmethod="post" class="btn btn-custom">Save</button>
                          </form>
                      </div>
                  </div>
                  <div class="col-sm-3">
                      <div class="add-book-custom">
 
-                             <label for="authors">Count</label>
+                             <label for="count">Count:</label>
                              <input type="number" class="form-control" id="count" name="count" value="1">
 
                     </div>
+
                  </div>
                  <div class="col-sm-3">
-                    <img  id="thumbnail" class="img-lookup-custom">
+                    <img  id="thumbnail" name="thumbnail" class="img-lookup-custom">
 
                 </div>
             </div>

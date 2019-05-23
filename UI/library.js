@@ -40,7 +40,7 @@ function showHint(str) {
                 document.getElementById("language").value = obj.language;
                 document.getElementById("authors").value = obj.authors;
                 document.getElementById("discription").value = obj.description;
-
+                showExistingAuthors(obj.authors);
             }
         };
         xmlhttp.open("GET", "http://localhost/bookworm-middleware/code/v1/get_book_data_from_isbn.php?isbn=" + str, true);
@@ -48,4 +48,73 @@ function showHint(str) {
         xmlhttp.send();
     }
 
+
+
+}
+function showExistingAuthors(str) {
+    var obj;
+    var xmlhttp = new XMLHttpRequest();
+    var eAuthors = [];
+    var eAuthorsAdd = [];
+    var eAuthorsLS = [];
+    var nAuthors = [];
+    var nAuthorsAdd = [];
+    var nAuthorsLS = [];
+
+    if(localStorage.getItem("eAuthors") === null){
+        localStorage.setItem("eAuthors",eAuthors);
+    }else{
+        eAuthorsLS = localStorage.getItem("eAuthors");
+        eAuthors = eAuthorsLS.split(",");
+    }
+
+    if(localStorage.getItem("nAuthors") === null){
+        localStorage.setItem("nAuthors",nAuthors);
+    }else{
+        nAuthorsLS = localStorage.getItem("nAuthors");
+        nAuthors = nAuthorsLS.split(",");
+    }
+    xmlhttp.onreadystatechange = function() {
+
+        obj = JSON.parse(this.response);
+        console.log(obj.data.new_authors);
+        localStorage.setItem("nAuthors",obj.data.new_authors);
+
+        for(author in obj.data.exist_authors){
+
+            if(!(eAuthors.includes(obj.data.exist_authors[author])) && !(nAuthors.includes(obj.data.exist_authors[author])) ){
+
+
+                if(confirm("Following author found in the system: \n" + obj.data.exist_authors[author] + "\nDo you want to use these ?")){
+
+                    eAuthorsAdd.push(obj.data.exist_authors[author]);
+
+                }else{
+                    console.log("cancel clicked");
+                    nAuthorsAdd.push(obj.data.exist_authors[author]);
+                    console.log(nAuthorsAdd);
+                }
+            }
+
+        }
+
+        eAuthorsLS = localStorage.getItem("eAuthors");
+        eAuthors = eAuthorsLS.split(",");
+        eAuthors.push(eAuthorsAdd);
+        localStorage.setItem("eAuthors",eAuthors.join(","));
+
+
+
+        nAuthorsLS = localStorage.getItem("nAuthors");
+        nAuthors = nAuthorsLS.split(",");
+        nAuthors.push(nAuthorsAdd);
+        localStorage.setItem("nAuthors",nAuthors.join(","));
+
+
+
+
+    };
+    xmlhttp.open("GET", "http://localhost/bookworm-middleware/code/v1/check_author_exist.php?authors=" + str, false);
+    xmlhttp.setRequestHeader("Content-type", "application/json");
+    xmlhttp.send();
 }
