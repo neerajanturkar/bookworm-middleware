@@ -209,3 +209,12 @@ label.radio-inline.mt-3.mb-3 {
     padding-top: 75px;
     padding-bottom: 75px;
 }
+
+/* search page */
+.container-fluid-search-custom{
+    padding-top: 75px;
+    padding-bottom: 75px;
+}
+input[type=search]:focus {
+    border: 3px solid #FF9800;
+}
