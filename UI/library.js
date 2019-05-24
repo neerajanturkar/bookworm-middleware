@@ -1,3 +1,5 @@
+
+/* navigation bar fixed at top */
 window.onscroll = function() {
     scrollFunction()
 };
@@ -18,7 +20,23 @@ function scrollFunction() {
         obj1.style.paddingRight = " ";
     }
 }
+/* end */
+/* validation */
+function validation() {
+    var emailid = document.getElementById("email");
+    var password = document.getElementById("pwd");
 
+    if(emailid.value.trim()=="" || password.value.trim())
+    {
+        alert("No blank values allowed");
+        return true;
+    }
+    else{
+        return false;
+    }
+    
+  }
+/* end */
 function showHint(str) {
     var obj;
     if (str.length != 13) {
@@ -48,9 +66,6 @@ function showHint(str) {
         xmlhttp.setRequestHeader("Content-type", "application/json");
         xmlhttp.send();
     }
-
-
-
 }
 function showExistingAuthors(str) {
     var obj;
@@ -84,8 +99,6 @@ function showExistingAuthors(str) {
         for(author in obj.data.exist_authors){
 
             if(!(eAuthors.includes(obj.data.exist_authors[author])) && !(nAuthors.includes(obj.data.exist_authors[author])) ){
-
-
                 if(confirm("Following author found in the system: \n" + obj.data.exist_authors[author] + "\nDo you want to use these ?")){
 
                     eAuthorsAdd.push(obj.data.exist_authors[author]);
@@ -96,24 +109,16 @@ function showExistingAuthors(str) {
                     console.log(nAuthorsAdd);
                 }
             }
-
         }
-
         eAuthorsLS = localStorage.getItem("eAuthors");
         eAuthors = eAuthorsLS.split(",");
         eAuthors.push(eAuthorsAdd);
         localStorage.setItem("eAuthors",eAuthors.join(","));
 
-
-
         nAuthorsLS = localStorage.getItem("nAuthors");
         nAuthors = nAuthorsLS.split(",");
         nAuthors.push(nAuthorsAdd);
         localStorage.setItem("nAuthors",nAuthors.join(","));
-
-
-
-
     };
     xmlhttp.open("GET", "http://localhost/bookworm-middleware/code/v1/check_author_exist.php?authors=" + str, false);
     xmlhttp.setRequestHeader("Content-type", "application/json");
