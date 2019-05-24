@@ -3,7 +3,6 @@
     require_once dirname(__FILE__) . "/../include/Book.php";
     try
     {
-//        print_r(json_encode($inputdata));
         verifyRequiredParams(array('type','title','publication','cnt','isbn'),$inputdata);
 
         $book = new Book();

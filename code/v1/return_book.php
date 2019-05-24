@@ -6,8 +6,9 @@ try {
 
     $book = new Book();
     $result = $book->return_book($inputdata);
-    if($result == 1){
+    if($result['success'] == 1){
         $response->success = true;
+        $response->fine = $result['fine'];
         $response->message = "Book returned successfully";
         $response->responseCode = 200;
     }else{
