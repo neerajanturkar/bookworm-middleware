@@ -40,6 +40,7 @@ function showHint(str) {
                 document.getElementById("language").value = obj.language;
                 document.getElementById("authors").value = obj.authors;
                 document.getElementById("discription").value = obj.description;
+                document.getElementById("page_count").value = obj.pageCount;
                 showExistingAuthors(obj.authors);
             }
         };
@@ -117,4 +118,29 @@ function showExistingAuthors(str) {
     xmlhttp.open("GET", "http://localhost/bookworm-middleware/code/v1/check_author_exist.php?authors=" + str, false);
     xmlhttp.setRequestHeader("Content-type", "application/json");
     xmlhttp.send();
+}
+function addBook() {
+    alert("add book called");
+    var e_author = localStorage.getItem("eAuthors");
+    var n_author = localStorage.getItem("nAuthors");
+
+    console.log(e_author);
+    console.log(n_author);
+    var data = {
+        type:document.getElementById("type").value,
+        title : document.getElementById("title").value,
+        subtitle : document.getElementById("subtitle").value,
+        isbn : document.getElementById("isbn").value,
+        publication : document.getElementById("publication").value,
+        description:document.getElementById("discription").value,
+        published_date:document.getElementById("start").value,
+        language:document.getElementById("language").value,
+        thumbnail:document.getElementById("thumbnail").src,
+        author: document.getElementById("authors").value,
+        cnt:document.getElementById("count").value
+    }
+    console.log(data);
+
+
+
 }

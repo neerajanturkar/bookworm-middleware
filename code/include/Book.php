@@ -80,6 +80,9 @@ class Book{
             if(strlen($n_author) == 0){
                 unset($n_author);
             }
+            if($type == 0){
+                $type = 1;
+            }
 
 
             if (array_key_exists('subtitle', $inputdata)) {
@@ -120,14 +123,14 @@ class Book{
 
             $sql = "CALL add_book(".$type.",'".$title."','".$subtitle."','"
                 .$publication."','".$description."','"
-                .$published_date."','".$page_count."','"
+                .$published_date."',".$page_count.",'"
                 .$language."','".$thumbnail."','"
                 .$isbn."','".$cnt."','"
                 .$e_author."','".$n_author."');";
 
-
+//            print_r($sql);die;
             $stmt = $this->con->query($sql);
-            print_r($stmt);
+
             if($stmt === true){
                 $response = true;
             }
