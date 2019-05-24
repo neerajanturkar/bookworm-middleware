@@ -61,7 +61,7 @@ function showHint(str) {
                 showExistingAuthors(obj.authors);
             }
         };
-        xmlhttp.open("GET", "http://localhost/bookworm-middleware/code/v1/get_book_data_from_isbn.php?isbn=" + str, true);
+        xmlhttp.open("GET", "http://localhost/bookworm-middleware/code/v1/add_book.php" + str, true);
         xmlhttp.setRequestHeader("Content-type", "application/json");
         xmlhttp.send();
     }

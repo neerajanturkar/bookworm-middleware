@@ -74,6 +74,7 @@ i.fa.fa-book {
 footer{
     background-color: black;
     padding: 2px;
+    
 }
 .p-footer {
     color: white;
@@ -222,8 +223,8 @@ label.radio-inline.mt-3.mb-3 {
 
 /* search page */
 .container-fluid-search-custom{
-    padding-top: 75px;
-    padding-bottom: 75px;
+    padding-top: 25px;
+    padding-bottom: 25px;
 }
 input[type=search]:focus {
     border: 3px solid #FF9800;
