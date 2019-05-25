@@ -62,7 +62,7 @@ function showHint(str) {
                 showExistingAuthors(obj.authors);
             }
         };
-        xmlhttp.open("GET", "http://localhost/bookworm-middleware/code/v1/add_book.php" + str, true);
+        xmlhttp.open("GET", "http://localhost/bookworm-middleware/code/v1/get_book_data_from_isbn.php?isbn=" + str, true);
         xmlhttp.setRequestHeader("Content-type", "application/json");
         xmlhttp.send();
     }
@@ -124,28 +124,28 @@ function showExistingAuthors(str) {
     xmlhttp.setRequestHeader("Content-type", "application/json");
     xmlhttp.send();
 }
-function addBook() {
-    alert("add book called");
-    var e_author = localStorage.getItem("eAuthors");
-    var n_author = localStorage.getItem("nAuthors");
-
-    console.log(e_author);
-    console.log(n_author);
-    var data = {
-        type:document.getElementById("type").value,
-        title : document.getElementById("title").value,
-        subtitle : document.getElementById("subtitle").value,
-        isbn : document.getElementById("isbn").value,
-        publication : document.getElementById("publication").value,
-        description:document.getElementById("discription").value,
-        published_date:document.getElementById("start").value,
-        language:document.getElementById("language").value,
-        thumbnail:document.getElementById("thumbnail").src,
-        author: document.getElementById("authors").value,
-        cnt:document.getElementById("count").value
-    }
-    console.log(data);
-
-
-
-}
+// function addBook() {
+//     alert("add book called");
+//     var e_author = localStorage.getItem("eAuthors");
+//     var n_author = localStorage.getItem("nAuthors");
+//
+//     console.log(e_author);
+//     console.log(n_author);
+//     var data = {
+//         type:document.getElementById("type").value,
+//         title : document.getElementById("title").value,
+//         subtitle : document.getElementById("subtitle").value,
+//         isbn : document.getElementById("isbn").value,
+//         publication : document.getElementById("publication").value,
+//         description:document.getElementById("discription").value,
+//         published_date:document.getElementById("start").value,
+//         language:document.getElementById("language").value,
+//         thumbnail:document.getElementById("thumbnail").src,
+//         author: document.getElementById("authors").value,
+//         cnt:document.getElementById("count").value
+//     }
+//     console.log(data);
+//
+//
+//
+// }
