@@ -104,9 +104,9 @@ function showExistingAuthors(str) {
                     eAuthorsAdd.push(obj.data.exist_authors[author]);
 
                 }else{
-                    console.log("cancel clicked");
+
                     nAuthorsAdd.push(obj.data.exist_authors[author]);
-                    console.log(nAuthorsAdd);
+
                 }
             }
         }

@@ -179,15 +179,18 @@ class Book{
             $user_id = $inputdata['user_id'];
             $dor = date("Y-m-d");
 
-            $sql = "CALL return_book(".$book_id.",".$user_id.",'".$dor."',@success);";
+            $sql = "CALL return_book(".$book_id.",".$user_id.",'".$dor."',@success,@fine);";
+//            print_r($sql);die;
             $stmt = $this->con->query($sql);
 
 
-            $select = $this->con->query('SELECT @success');
+            $select = $this->con->query('SELECT @success , @fine');
             $result = $select->fetch_assoc();
             $success = $result['@success'];
-
-            return $success;
+            $fine = $result['@fine'];
+            $res['success'] = $success;
+            $res['fine'] = $fine;
+            return $res;
         }catch(Exception $ex ){
             echo $ex;
             return 0;
