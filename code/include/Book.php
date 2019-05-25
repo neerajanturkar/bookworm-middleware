@@ -262,6 +262,23 @@ class Book{
             return null;
         }
     }
+    public  function  check_book_is_available($inputdata){
+        try{
+            $book_id = $inputdata['book_id'];
+            $reservation_date = $inputdata['reservation_date'];
+
+            $sql = "SELECT check_book_is_available(".$book_id.",'".$reservation_date."') AS isAvailable;";
+
+            $stmt = $this->con->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->get_result()->fetch_assoc();
+
+            return $result['isAvailable'];
+
+        }catch (Exception $exception){
+            return null;
+        }
+    }
 
 }
 ?>

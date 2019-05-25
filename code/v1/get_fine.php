@@ -12,7 +12,7 @@ try
         $response->fine = $data;
         $response->message = "Fine fetched successfully";
         $response->responseCode = 200;
-        
+
     }else{
         $response->success = false;
         $response->message = "Failed to fetch fine";
