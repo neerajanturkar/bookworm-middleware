@@ -246,6 +246,22 @@ class Book{
             return null;
         }
     }
+    public function get_fine($inputdata){
+        try{
+            $book_id = $inputdata['book_id'];
+            $user_id = $inputdata['user_id'];
+            $ador = date("Y-m-d");
+            $sql = "CALL get_fine(".$book_id.",".$user_id.",'".$ador."',@fine);";
+            $stmt = $this->con->query($sql);
+            $select = $this->con->query('SELECT @fine');
+            $result = $select->fetch_assoc();
+            $fine = $result['@fine'];
+            return $fine;
+
+        }catch (Exception $ex){
+            return null;
+        }
+    }
 
 }
 ?>
