@@ -15,9 +15,18 @@
   <script type="text/javascript" src="library.js"></script>
   <script>
         function searchContent(val){
+            var xmlhttp = new XMLHttpRequest();
             xmlhttp.open("GET", "http://localhost/bookworm-middleware/code/v1/get_books.php?like=" + val, true);
             xmlhttp.setRequestHeader("Content-type", "application/json");
             xmlhttp.send();
+        
+            xmlhttp.onreadystatechange = function () {
+
+        if (this.readyState == 4 && this.status == 200) {
+            // var obj = JSON.parse(this.response);
+            console.log(this.responseText)
+}
+}
     
     };
        
@@ -73,10 +82,10 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12 col-md-10 col-lg-8">
-                    <form action="/action_page.php" oninput="searchContent(this.value)">
+                    <form >
                         <div class="card-body row no-gutters align-items-center">
                             <div class="col">
-                                <input class="form-control form-control-lg form-control-borderless" type="search" 
+                                <input class="form-control form-control-lg form-control-borderless" type="search" oninput="searchContent(this.value)"
                                 placeholder="Search by ISBN, Title, Authors..">
                             </div>
                             <!--end of col-->
