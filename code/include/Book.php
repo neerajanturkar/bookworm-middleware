@@ -22,7 +22,7 @@ class Book{
          $stmt = $this->con->query($sql);
          $details = $stmt->fetch_all();
 
-
+        
          $this->con->close();
          unset($obj);
          unset($sql);

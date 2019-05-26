@@ -80,7 +80,9 @@ footer{
     color: white;
     text-align: center;
 }
-
+.footer-custom{
+    margin-top: 20%;
+}
 /* ADD Books CSS */
 
 /* navbar */
@@ -185,11 +187,12 @@ button[type=submit]:focus{
     margin-top: 92px;
     margin-left: 20px;
 }
-.img-lookup-custom{
-    width: 60%;
-    height: 12%;
+.img-lookup-custom {
+    width: 65%;
+    height: 18%;
     margin-top: 92px;
-    margin-left: 20px;
+    /* margin-left: 20px; */
+    float: right;
 }
 .container-fluid-bgcolor{
     background-color: #FF9800;
@@ -228,4 +231,22 @@ label.radio-inline.mt-3.mb-3 {
 }
 input[type=search]:focus {
     border: 3px solid #FF9800;
+}
+/* reservation page */
+.form-group-custom{
+    width: 41%;
+}
+.padding-custom {
+    padding-top: 50px;
+    padding-bottom: 70px;
+}
+h2.padding-bottom-custom {
+    padding-bottom: 40px;
+}
+
+/* search list */
+
+ol#book-list {
+    list-style-type: none;
+    font-weight: bold;
 }
