@@ -1,7 +1,7 @@
 <?php
 	// date_default_timezone_set('Asia/Kolkata');
 	//Set error reporting to display only fatal errors
-	  error_reporting(~E_ALL & ~E_NOTICE & ~E_WARNING);
+//	  error_reporting(~E_ALL & ~E_NOTICE & ~E_WARNING);
 	//Initialize start time, needed to calculate timeInMillis while sending back response
 	$start = microtime(true);
 	try
@@ -253,23 +253,23 @@
 	//This method sends email and returns true if successfully sent
 	function SendMail($toEmail, $subject, $html, $text, $fromEmail=null, $fromName=null ,$attachment=null)
 	{
-		
+
 		require dirname(__FILE__) . '/../libs/phpmailer/vendor/autoload.php';
 		$mail = new PHPMailer;
 		//$mail->SMTPDebug = 3;                               // Enable verbose debug output
 		$mail->isSMTP();                                      // Set mailer to use SMTP
-		$mail->Host = SMTP_SERVER;  // Specify main and backup SMTP servers
+		$mail->Host = 'smtp.gmail.com';   // Specify main and backup SMTP servers
 		$mail->SMTPAuth = true;                               // Enable SMTP authentication
-		$mail->Username = SMTP_USER;                 // SMTP username
-		$mail->Password = SMTP_PASS;                           // SMTP password
+		$mail->Username = 'campuslibrary2019@gmail.com';                 // SMTP username
+		$mail->Password = 'Anturkar@05';                           // SMTP password
 		$mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-		$mail->Port = SMTP_PORT;                                    // TCP port to connect to
+		$mail->Port = 587;                                    // TCP port to connect to
 		$mail->CharSet = 'UTF-8';
 		$mail->Encoding = 'base64';
 		if($fromEmail == null)
-			$fromEmail = SMTP_FROM_EMAIL;
+			$fromEmail = 'campuslibrary2019@gmail.com';
 		if($fromName == null)
-			$fromName = SMTP_FROM_NAME;
+			$fromName = 'Campus Library';
 		$mail->setFrom($fromEmail, $fromName);
 		$mail->addAddress($toEmail);     // Add a recipient
 		//$mail->addAddress('ellen@example.com');               // Name is optional
@@ -288,12 +288,13 @@
 
 		if(!$mail->send()) {
 			// log4phpException($mail->ErrorInfo);
+            print_r($mail->ErrorInfo);
 			return false;
 		} else {
 			return true;
 		}
 	}
-	
+
 	//Function to handle fatal errors
 	function shutdown() {
 		$error = error_get_last();
