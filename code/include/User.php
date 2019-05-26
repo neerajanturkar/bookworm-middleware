@@ -49,12 +49,18 @@ class User
             }else{
                 $dob = "";
             }
+            if (array_key_exists('pincode', $inputdata)) {
+                $pincode = $inputdata['pincode'];
+            }else{
+                $pincode = "";
+            }
+
 
             $sql = "CALL add_user(".$type.",'".$firstname."','".$lastname."','"
                 .$phone."','".$email."','"
                 .$address_line1."','".$address_line2."','"
                 .$city."','".$state."','"
-                .$country."','".$dob."');";
+                .$country."',".$pincode.",'".$dob."');";
 //            print_r($sql);die;
             $stmt = $this->con->query($sql);
             if($stmt === true){
@@ -64,7 +70,7 @@ class User
                 $response = false;
             }
             $this->con->close();
-            print_r($stmt);
+
         } catch (Exception $ex){
             print_r($ex);
         }
@@ -73,5 +79,3 @@ class User
 }
 ?>
 
-<!--select * from catalog-->
-<!--where book_id = UUID_TO_BIN('3e10d1f2-78fc-11e9-a24d-b76bf381abd6');-->
