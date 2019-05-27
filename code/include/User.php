@@ -76,6 +76,27 @@ class User
         }
         return $response;
     }
+
+    public function login($inputdata){
+        try {
+            $email = $inputdata['email'];
+            $password = $inputdata['password'];
+
+            $sql = "CALL login('" . $email . "','" . $password . "',@success,@session_id);";
+            $stmt = $this->con->query($sql);
+            $select = $this->con->query('SELECT @success,@session_id');
+            $result = $select->fetch_assoc();
+            $success = $result['@success'];
+            $session_id = $result['@session_id'];
+
+            $res['success'] = $success;
+            $res['session_id'] = $session_id;
+            return $res;
+        }catch (Exception $exception){
+            print_r($exception);
+            return null;
+        }
+    }
 }
 ?>
 

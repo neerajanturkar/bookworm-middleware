@@ -37,7 +37,7 @@
                     "&email="+email+"&address_line1="+address_line1+"&address_line2="+address_line2+"&city="+city+
                     "&state="+state+"&country="+country+"&pincode="+pincode+"&dob="+dob;
 
-        
+        console.log(theUrl);
         xmlhttp.onreadystatechange = function () {
 
                 if (this.readyState == 4 && this.status == 200) {
@@ -47,10 +47,10 @@
                 location.reload();
                 }
         }
-    xmlhttp.open("GET", theUrl,false);
-    xmlhttp.setRequestHeader("Content-Type", "application/json");
-    xmlhttp.send();
-  });
+        xmlhttp.open("GET", theUrl,false);
+        xmlhttp.setRequestHeader("Content-Type", "application/json");
+        xmlhttp.send();
+      });
   return false;
 });
  

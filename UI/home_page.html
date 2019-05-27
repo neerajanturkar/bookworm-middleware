@@ -11,6 +11,43 @@
   <link rel="stylesheet" href="bootstrap/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="library.css">
+	<script>
+
+		$(function(){
+			$("#submit").click(function() {
+
+
+
+				var email =document.getElementById("email").value;
+				var password =document.getElementById("pwd").value;
+
+				var xmlhttp = new XMLHttpRequest();
+				var theUrl = "http://localhost/bookworm-middleware/code/v1/login.php?email="+email+"&password="+password;
+
+				console.log(theUrl);
+				xmlhttp.onreadystatechange = function () {
+
+					if (this.readyState == 4 && this.status == 200) {
+
+						obj = JSON.parse(this.response);
+						localStorage.setItem("session_id",obj.session_id);
+						console.log(obj);
+						alert(obj.message);
+						if(obj.success === true) {
+
+							location.assign("/add-book.html");
+
+						}
+					}
+				}
+				xmlhttp.open("GET", theUrl,false);
+				xmlhttp.setRequestHeader("Content-Type", "application/json");
+				xmlhttp.send();
+			});
+			return false;
+		});
+
+	</script>
 </head>
 <body>
     <!-- Header -->
@@ -52,7 +89,7 @@
 		<div class="login-form">
                 
 			<div class="login-custom">
-				<form action="http://localhost/bookworm-middleware/UI/add-book.html" onsubmit="return validation()">
+				<form action="add-book.html">
 					<h2 class="text-color">Login</h2>
 					
 					<div class="form-group ">
@@ -68,7 +105,7 @@
 						<input class="form-check-input" type="checkbox" name="remember" checked> Remember me
 					</label>
 					</div>
-					<button type="submit" class="btn login-button text-color">Login</button>
+					<button type="submit" id="submit" class="btn login-button text-color">Login</button>
 				</form>
 			</div>
 		</div>
