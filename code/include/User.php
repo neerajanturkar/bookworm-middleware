@@ -112,6 +112,18 @@ class User
         return $res;
 
     }
+    public function get_user($inputdata){
+        try {
+            $user_id = $inputdata['user_id'];
+            $sql = "SELECT * from user where id = " . $user_id . ";";
+            $stmt = $this->con->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->get_result()->fetch_assoc();
+            return $result;
+        }catch (Exception $exception){
+            return null;
+        }
+    }
 }
 ?>
 
