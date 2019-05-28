@@ -49,12 +49,18 @@ class User
             }else{
                 $dob = "";
             }
+            if (array_key_exists('pincode', $inputdata)) {
+                $pincode = $inputdata['pincode'];
+            }else{
+                $pincode = "";
+            }
+
 
             $sql = "CALL add_user(".$type.",'".$firstname."','".$lastname."','"
                 .$phone."','".$email."','"
                 .$address_line1."','".$address_line2."','"
                 .$city."','".$state."','"
-                .$country."','".$dob."');";
+                .$country."',".$pincode.",'".$dob."');";
 //            print_r($sql);die;
             $stmt = $this->con->query($sql);
             if($stmt === true){
@@ -64,14 +70,33 @@ class User
                 $response = false;
             }
             $this->con->close();
-            print_r($stmt);
+
         } catch (Exception $ex){
             print_r($ex);
         }
         return $response;
     }
+
+    public function login($inputdata){
+        try {
+            $email = $inputdata['email'];
+            $password = $inputdata['password'];
+
+            $sql = "CALL login('" . $email . "','" . $password . "',@success,@session_id);";
+            $stmt = $this->con->query($sql);
+            $select = $this->con->query('SELECT @success,@session_id');
+            $result = $select->fetch_assoc();
+            $success = $result['@success'];
+            $session_id = $result['@session_id'];
+
+            $res['success'] = $success;
+            $res['session_id'] = $session_id;
+            return $res;
+        }catch (Exception $exception){
+            print_r($exception);
+            return null;
+        }
+    }
 }
 ?>
 
-<!--select * from catalog-->
-<!--where book_id = UUID_TO_BIN('3e10d1f2-78fc-11e9-a24d-b76bf381abd6');-->

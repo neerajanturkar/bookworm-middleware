@@ -31,7 +31,7 @@
                       //  console.log(element.title);
                     //   $('#book-list').append($('<li>').append($('<span>')).text(element.title).attr('id',element.isbn));
                     //     });
-                    $("#book-list").append('<li class="search" data-toggle="modal" data-target="#myModal" onclick="getDetails('+element.isbn+')" ><a href="#">'+element.title+'</a></li>'); 
+                    $("#book-list").append('<li class="search" data-toggle="modal" data-target="#myModal" onclick="getDetails('+element.isbn+')" ><a href="#">'+element.title+'</a></li>');
                                        
                     });
                 }
@@ -41,15 +41,31 @@
         function getDetails(isbn){
             var modal = document.getElementById("myModal");
             modal.style.display = "block";
-            console.log(isbn);
+            var row;
+            obj.data.forEach(element => {
+               if(element.isbn == isbn){
+
+                   document.getElementById("book_name").value = element.title;
+
+                   $('#myModal').find('#book_name').html(element.title);
+                   $('#myModal').find('#author').html(element.authors);
+                   $('#myModal').find('#isbn').html(element.isbn);
+                   $('#myModal').find('#publication').html(element.publication);
+                   element.copies.forEach(book =>{
+                       var available = null;
+                       if(book.is_borrowed == 0){
+                           available = "Yes";
+                       }else{
+                           available = "No";
+                       }
+                       row = ('<tr><td>'+book.book_id+'</td><td>'+available+'</td></tr>');
+                       $('#cp_tab').append(row);
+                   });
+
+               }
+            });
         }
-        $("ol li.search").on("click",function(){
-            alert("clicked");
-        });
-        
-    // $('#clickMe').click(function() {
-    // $('#ticketsDemosss').append($('<li>').text('sds'));
-       
+
   </script>
 </head>
 <body>
@@ -148,26 +164,33 @@
                 <h4 class="modal-title">Book information</h4>
             </div>
             <div class="modal-body">
-              <table class="table table-borderless">
-                    <tbody>
+
+              <table id="cp_tab" class="table table-borderless">
+                    <tbody id="copies_table">
                         <tr>
-                            <td>Book name</td>
-                            <td></td>
+                            <td><b>Book name</b></td>
+                            <td id="book_name"></td>
                         </tr>
                         <tr> 
-                            <td>Author</td>
-                            <td></td>
+                            <td><b>Author</b></td>
+                            <td id="author"></td>
                         </tr>
                         <tr>
-                            <td>Copies</td>
+                            <td><b>ISBN</b></td>
+                            <td id="isbn"></td>
                         </tr>
                         <tr>
-                            <td>Id</td>
-                            <td>Available</td>
+                            <td><b>Publication</b></td>
+                            <td id="publication"></td>
                         </tr>
                         <tr>
-                            <td></td>
+                            <td><b>Copies</b></td>
                         </tr>
+                        <tr>
+                            <td><b>Id</b></td>
+                            <td><b>Available</b></td>
+                        </tr>
+
               </table>
             </div>
             <div class="modal-footer">
