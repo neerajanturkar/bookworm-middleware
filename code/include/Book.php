@@ -407,15 +407,7 @@ class Book{
 
 
                 $result = SendMail($email, $subject, $html, $html);
-
-//                if($result){
-//                    print_r("Mail sennt success");
-//                }else{
-//                    print_r("mail send failed");
-//                }
-
-
-            }
+           }
             return $success;
 
         }catch (Exception $exception){
@@ -442,5 +434,26 @@ class Book{
 
     }
 
+    public  function delete_by_bookid($inputdata){
+        try{
+            $book_id = $inputdata['book_id'];
+
+            $sql = "call delete_by_book_id(".$book_id.",@success,@message)";
+            // print_r($sql);die;
+            $stmt = $this->con->query($sql);
+            $select = $this->con->query('SELECT @success , @message');
+            $result = $select->fetch_assoc();
+           
+            $success = $result['@success'];
+            $message = $result['@message'];
+            $res['success'] = $success;
+            $res['message'] = $message;
+     
+            return $res;
+
+        }catch (Exception $exception){
+            return null;
+        }
+    }
 }
 ?>
