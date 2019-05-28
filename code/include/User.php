@@ -97,6 +97,21 @@ class User
             return null;
         }
     }
+    public function delete_user($inputdata){
+        $user_id = $inputdata['user_id'];
+
+        $sql = "CALL delete_user(".$user_id.",@success,@message);";
+        $stmt = $this->con->query($sql);
+        $select = $this->con->query('SELECT @success,@message');
+        $result = $select->fetch_assoc();
+        $success = $result['@success'];
+        $message = $result['@message'];
+        $res['success'] = $success;
+        $res['message'] = $message;
+
+        return $res;
+
+    }
 }
 ?>
 
