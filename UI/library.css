@@ -250,3 +250,56 @@ ol#book-list {
     list-style-type: none;
     font-weight: bold;
 }
+
+/* about us */
+.about-us{
+    overflow: hidden;
+    position: relative;
+}
+.image-custom-left img{
+    float: left;
+    border: 3px solid black;
+    padding: 0px;
+}
+.image-custom-right img{
+    float: right;
+    border: 3px solid black;
+    
+}
+    .display-inline-right {
+        /* display: inline; */
+        text-align: right;
+        position: absolute;
+        clear: both;
+        top: 35px;
+        right: 248px;
+    }
+.display-inline-left{
+    text-align: left;
+    position: absolute;
+    clear: both;
+    top: 35px;
+    left: 250px;
+}
+
+
+/* navigation dropdown */
+
+a.dropdown-item:hover {
+    background-color: #FF9800;
+    color: #fff;
+}
+
+/* delete book */
+div#delete-book-left{
+    float: left;
+    padding: 40px;
+}
+div#delete-book-right {
+    float: right;
+    padding: 40px;
+}
+/* delete user */
+.footer-user-custom{
+    margin-top: 10%;
+}

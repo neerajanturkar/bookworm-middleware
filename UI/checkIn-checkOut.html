@@ -45,6 +45,9 @@
                        <li class="nav-item">
                             <a class="nav-link" href="http://localhost/bookworm-middleware/UI/reservation.html">Book Reservation</a>
                         </li>
+                        <li class="nav-item">
+                                <a class="nav-link" href="http://localhost/bookworm-middleware/UI/aboutUs.html">About Us</a>
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -194,33 +197,25 @@
         var val = getRadioVal( document.getElementById('checkInOutForm'),'optradio');
 
         if(val == 'return_book' && book.length > 0 && user.length > 0){
-
             var theUrl = "http://localhost/bookworm-middleware/code/v1/get_fine.php?book_id="+book+"&user_id="+user;
             xmlhttp.onreadystatechange = function () {
-
                 if (this.readyState == 4 && this.status == 200) {
                     obj = JSON.parse(this.response);
                     // alert(obj.message);
                     if(obj.fine > 0){
                         if(confirm("Book not Returned on time. Amount of € " + obj.fine + " needs to be collected.\nMark fine as paid ?")){
-
                             document.getElementById("fine_payed").value = 1;
-
-                        }else{
+                        }
+                        else{
 
                             document.getElementById("fine_payed").value = 0;
-
-
                         }
                     }
-
-
                 }
             }
             xmlhttp.open("GET", theUrl,true);
             xmlhttp.setRequestHeader("Content-Type", "application/json");
             xmlhttp.send();
-
         }
     }
 </script>
