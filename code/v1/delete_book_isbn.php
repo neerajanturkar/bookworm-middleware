@@ -2,10 +2,10 @@
     require_once dirname(__FILE__) . "/../include/Common.php";
     require_once dirname(__FILE__) . "/../include/Book.php";
     try {
-        verifyRequiredParams(array('book_id'), $inputdata);
+        verifyRequiredParams(array('isbn'), $inputdata);
 
         $book = new Book();
-        $result = $book->delete_by_bookid($inputdata);
+        $result = $book->delete_by_book_isbn($inputdata);
 
         if($result['success']==1){
             $response->success = true;

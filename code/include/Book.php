@@ -439,7 +439,7 @@ class Book{
             $book_id = $inputdata['book_id'];
 
             $sql = "call delete_by_book_id(".$book_id.",@success,@message)";
-            // print_r($sql);die;
+
             $stmt = $this->con->query($sql);
             $select = $this->con->query('SELECT @success , @message');
             $result = $select->fetch_assoc();
@@ -451,6 +451,41 @@ class Book{
      
             return $res;
 
+        }catch (Exception $exception){
+            return null;
+        }
+    }
+    public function delete_by_book_isbn($inputdata){
+        try{
+            $isbn = $inputdata['isbn'];
+
+            $sql = "call delete_by_book_isbn(".$isbn.",@success,@message)";
+
+            $stmt = $this->con->query($sql);
+            $select = $this->con->query('SELECT @success , @message');
+            $result = $select->fetch_assoc();
+
+            $success = $result['@success'];
+            $message = $result['@message'];
+            $res['success'] = $success;
+            $res['message'] = $message;
+
+            return $res;
+
+        }catch (Exception $exception){
+            return null;
+        }
+    }
+    public function get_book_by_isbn($inputdata){
+        try{
+
+            $isbn = $inputdata['isbn'];
+            $sql = "SELECT type,title,subtitle,isbn,publication,description,published_date,page_count,language, thumbnail from book where isbn = ".$isbn.";";
+            $stmt = $this->con->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->get_result()->fetch_assoc();
+
+            return $result;
         }catch (Exception $exception){
             return null;
         }
