@@ -35,7 +35,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"> Books </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" aria-labelledby="navbarDropdown" href="http://localhost/bookworm-middleware/UI/add-book.html">Add</a>
+                                <a class="dropdown-item" aria-labelledby="navbarDropdown" href="http://localhost/bookworm-middleware/UI/add-book.html">New</a>
                                 <a class="dropdown-item" href="http://localhost/bookworm-middleware/UI/update-book.html">Update</a>
                                 <a class="dropdown-item" href="http://localhost/bookworm-middleware/UI/delete-book.html">Delete</a>
                             </div>
@@ -43,7 +43,7 @@
                         <li class="nav-item dropdown active">
                             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"> User </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" aria-labelledby="navbarDropdown" href="http://localhost/bookworm-middleware/UI/add-user.html">Add </a>
+                                <a class="dropdown-item" aria-labelledby="navbarDropdown" href="http://localhost/bookworm-middleware/UI/add-user.html">New</a>
                                 <a class="dropdown-item" href="http://localhost/bookworm-middleware/UI/update-user.html">Update</a>
                                 <a class="dropdown-item" href="http://localhost/bookworm-middleware/UI/delete-user.html">Delete</a>
                             </div>
@@ -79,27 +79,27 @@
      <!--ADD User form-->
     <div class="container-fluid">
         <div class="container container-custom">
+                <h2 class="mt-3 pt-3">Update User</h2>
             <div class="row">
                 <div class="col-sm-6">
                     <div class="add-book-custom">
                         <form action="/action_page.php">
-                            <h2 class="mt-3 mb-3">Update User</h2>
                             <div class="form-group">
                                 <label for="fn">First name</label>
-                                <input type="text" class="form-control" id="firstname" name="text">
+                                <input type="text" class="form-control mt-3 mb-3" id="firstname" name="text">
                             </div>
                             <div class="form-group">
                                 <label for="ln">Last name</label>
-                                <input type="text" class="form-control" id="lastname" name="text">
+                                <input type="text" class="form-control mt-3 mb-3" id="lastname" name="text">
                             </div>
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" class="form-control" id="emailid" name="email">
+                                <input type="email" class="form-control mt-3 mb-3" id="emailid" name="email">
                             </div>
                             
                             <div class="form-group">
                                 <label for="start">DOB</label>
-                                <input type="date" id="start" name="dob" min="1940-01-01" max="2018-01-01">
+                                <input type="date" class="mt-3 mb-3" id="start" name="dob" min="1940-01-01" max="2018-01-01">
                             </div>
                             <select name="type" class="custom-select mb-3">
                                 <option selected>User type</option>
@@ -109,27 +109,27 @@
                             </select>
                             <div class="form-group">
                                 <label for="addressline1">Address line 1</label>
-                                <input type="text" class="form-control" id="addressline1" name="text">
+                                <input type="text" class="form-control mt-3 mb-3" id="addressline1" name="text">
                             </div>
                             <div class="form-group">
                                 <label for="addressline2">Address line 2</label>
-                                <input type="text" class="form-control" id="addressline2" name="text">
+                                <input type="text" class="form-control mt-3 mb-3" id="addressline2" name="text">
                             </div>
                             <div class="form-group">
                                 <label for="city">City</label>
-                                <input type="text" class="form-control" id="city" name="text">
+                                <input type="text" class="form-control mt-3 mb-3" id="city" name="text">
                             </div>
                             <div class="form-group">
                                 <label for="state">State</label>
-                                <input type="text" class="form-control" id="state" name="text">
+                                <input type="text" class="form-control mt-3 mb-3" id="state" name="text">
                             </div>
                             <div class="form-group">
                                 <label for="country">Country</label>
-                                <input type="text" class="form-control" id="country" name="text">
+                                <input type="text" class="form-control mt-3 mb-3" id="country" name="text">
                             </div>
                             <div class="form-group">
                                 <label for="pincode">Pincode</label>
-                                <input type="number" class="form-control" id="pincode" name="text">
+                                <input type="number" class="form-control mt-3 mb-3" id="pincode" name="text">
                             </div>
                             <button type="submit" class="btn btn-custom mt-3 mb-3">Clear</button>
                             <button type="submit" class="btn btn-custom mt-3 mb-3">Update</button>

@@ -303,3 +303,18 @@ div#delete-book-right {
 .footer-user-custom{
     margin-top: 10%;
 }
+
+/* home-page */
+.home-page{
+    width: 100%;
+}
+.home-page-custom{
+    position: absolute;
+    background-color: rgb(0,0,0,0.5);
+    margin: 0 auto;
+    flex: auto;
+    padding: 50px;
+    top: 200px;
+    left: 410px;
+    width: 46%;
+}
