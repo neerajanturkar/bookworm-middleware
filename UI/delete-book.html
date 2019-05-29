@@ -58,12 +58,10 @@
 
 
                 if(book_id.length > 0 && isbn.length == 0){
-                    //call delete on book id
 
                     var theUrl = "http://localhost/bookworm-middleware/code/v1/delete_by_bookid.php?book_id=" + book_id;
 
                 }else if(book_id.length == 0 && isbn.length > 0){
-                    //call delete on isbn
                     var theUrl = "http://localhost/bookworm-middleware/code/v1/delete_book_isbn.php?isbn=" + isbn;
                 }else if(book_id.length > 0 && isbn.length > 0){
                     alert("Please enter either book id or isbn. But not both.")
