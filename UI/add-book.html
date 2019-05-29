@@ -143,7 +143,7 @@
                             <li class="nav-item dropdown active">
                                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"> Books </a>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" aria-labelledby="navbarDropdown" href="http://localhost/bookworm-middleware/UI/add-book.html">Add</a>
+                                    <a class="dropdown-item" aria-labelledby="navbarDropdown" href="http://localhost/bookworm-middleware/UI/add-book.html">New</a>
                                     <a class="dropdown-item" href="http://localhost/bookworm-middleware/UI/update-book.html">Update</a>
                                     <a class="dropdown-item" href="http://localhost/bookworm-middleware/UI/delete-book.html">Delete</a>
                                 </div>
@@ -151,9 +151,9 @@
                            <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"> User </a>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" aria-labelledby="navbarDropdown" href="http://localhost/bookworm-middleware/UI/add-user.html">Add </a>
-                                    <a class="dropdown-item" href="#">Update</a>
-                                    <a class="dropdown-item" href="#">Delete</a>
+                                    <a class="dropdown-item" aria-labelledby="navbarDropdown" href="http://localhost/bookworm-middleware/UI/add-user.html">New</a>
+                                    <a class="dropdown-item" href="http://localhost/bookworm-middleware/UI/update-user.html">Update</a>
+                                    <a class="dropdown-item" href="http://localhost/bookworm-middleware/UI/delete-user.html">Delete</a>
                                 </div>
                            </li>
                            <li class="nav-item">
@@ -189,36 +189,37 @@
     <!--ADD Book form-->
     <div class="container-fluid">
         <div class="container container-custom">
+            <h2 class="mt-3 pt-3">Add Book</h2>
             <div class="row">
                 <div class="col-sm-6">
                     <div id="add_book_form" class="add-book-custom">
                         <form id="addbook" action="">
-                            <h2 class="mt-3">Add Book</h2>
+                            
                             <div class="form-group">
                                 <label for="isbn">ISBN</label>
-                                <input type="number" class="form-control" required id="isbn" name="isbn" onkeyup="showHint(this.value)" >
+                                <input type="number" class="form-control mt-3 mb-3" required id="isbn" name="isbn" onkeyup="showHint(this.value)" >
                             </div>
                             <div class="form-group">
                                 <label for="title">Title</label>
-                                <input type="text" class="form-control" required id="title" name="title">
+                                <input type="text" class="form-control mt-3 mb-3" required id="title" name="title">
                             </div>
                             <div class="form-group">
                                 <label for="subtitle">Subtitle</label>
-                                <input type="text" class="form-control" id="subtitle" name="subtitle">
+                                <input type="text" class="form-control mt-3 mb-3" id="subtitle" name="subtitle">
                             </div>
                             <div class="form-group">
                                 <label for="publication">Publication</label>
-                                <input type="text" class="form-control" id="publication" name="publication">
+                                <input type="text" class="form-control mt-3 mb-3" id="publication" name="publication">
                             </div>
                             <div class="form-group">
                                 <label for="cnt">Book count</label>
-                                <input type="number" class="form-control" id="cnt" name="cnt" value="1">
+                                <input type="number" class="form-control mt-3 mb-3" id="cnt" name="cnt" value="1">
                             </div>
                             <div class="form-group">
                                 <label for="start">Publication date</label>
-                                <input type="date" id="start" name="published_date" value="2018-07-22">
+                                <input type="date" id="start" class="mt-3 mb-3" name="published_date" value="2018-07-22">
                             </div>
-                            <select name="type" id="type" class="custom-select mb-3">
+                            <select name="type" id="type" class="custom-select mt-3 mb-3">
                                 <option value="0" selected>Type</option>
                                 <option value="1">Purchase</option>
                                 <option value="2">Donate</option>
@@ -226,21 +227,21 @@
                             </select>
                             <div class="form-group">
                                 <label for="discription">Description</label>
-                                <textarea class="form-control" rows="5" id="discription" name="description"></textarea>
+                                <textarea class="form-control mt-3 mb-3" rows="5" id="discription" name="description"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="language">Language</label>
-                                <input type="text" class="form-control" id="language" name="language">
+                                <input type="text" class="form-control mt-3 mb-3" id="language" name="language">
                             </div>
                             <div class="form-group">
                                 <label for="authors">Authors</label>
-                                <input type="text" class="form-control" required id="authors" onchange="showExistingAuthors(this.value);" name="authors" value=" ">
+                                <input type="text" class="form-control  mt-3 mb-3" required id="authors" onchange="showExistingAuthors(this.value);" name="authors" value=" ">
                                 <input type="text" class="form-control" hidden id="e_author" name="e_author" >
                                 <input type="text" class="form-control" hidden id="n_author" name="n_author" >      
                             </div>
                             <div class="form-group">
                                 <label for="page_count">Page Count</label>
-                                <input type="text" class="form-control"  id="page_count" name="page_count" > 
+                                <input type="text" class="form-control mt-3 mb-3"  id="page_count" name="page_count" > 
                             </div>
                             <button type="reset" class="btn btn-custom mt-3 mb-3">Clear</button>
                             <button type="submit" id="submit" name="submit" class="btn btn-custom mt-3 mb-3">Save</button>
