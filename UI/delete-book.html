@@ -13,6 +13,85 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   <link rel="stylesheet" href="library.css">
   <script type="text/javascript" src="library.js"></script>
+    <script>
+        function displayBookTitleByName(str) {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log(this.response);
+                    obj = JSON.parse(this.response);
+
+
+                    document.getElementById("book_name_isbn").innerHTML = obj.data.title;
+
+                }
+            };
+
+            var url = "http://localhost/bookworm-middleware/code/v1/get_book_by_isbn.php?isbn="+str;
+            xmlhttp.open("GET", url , true);
+            xmlhttp.setRequestHeader("Content-type", "application/json");
+            xmlhttp.send();
+        }
+        function displayBookTitleByID(str) {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log(this.response);
+                    obj = JSON.parse(this.response);
+
+                    document.getElementById("book_name_id").innerHTML = obj.data;
+
+                }
+            };
+            xmlhttp.open("GET", "http://localhost/bookworm-middleware/code/v1/get_book_by_id.php?book_id=" + str, true);
+            xmlhttp.setRequestHeader("Content-type", "application/json");
+            xmlhttp.send();
+        }
+
+        $(function() {
+            $("#delete").click(function () {
+
+
+                var book_id = document.getElementById("bookid").value;
+                var isbn = document.getElementById("isbn").value;
+
+
+                if(book_id.length > 0 && isbn.length == 0){
+
+                    var theUrl = "http://localhost/bookworm-middleware/code/v1/delete_by_bookid.php?book_id=" + book_id;
+
+                }else if(book_id.length == 0 && isbn.length > 0){
+                    var theUrl = "http://localhost/bookworm-middleware/code/v1/delete_book_isbn.php?isbn=" + isbn;
+                }else if(book_id.length > 0 && isbn.length > 0){
+                    alert("Please enter either book id or isbn. But not both.")
+                }else if(book_id.length == 0 && isbn.length == 0){
+                    alert("Please enter either book id or isbn.")
+                }
+
+                var xmlhttp = new XMLHttpRequest();
+
+
+
+                xmlhttp.onreadystatechange = function () {
+
+                    if (this.readyState == 4 && this.status == 200) {
+                        console.log(this.response);
+                        obj = JSON.parse(this.response);
+                        alert(obj.message);
+                        location.reload();
+
+                    }
+
+                }
+                xmlhttp.open("GET", theUrl, false);
+                xmlhttp.setRequestHeader("Content-Type", "application/json");
+                xmlhttp.send();
+
+            });
+            return false;
+        });
+    </script>
     
 </head>
 <body>
@@ -89,15 +168,16 @@
                         <form id="delete-book">
                             <div class="form-group mt-3 mb-3">
                                     <label for="bookid">BookId</label>
-                                    <input type="number" class="form-control mt-3 mb-3" required id="bookid" name="bookid">
+                                    <input type="number" class="form-control" oninput="displayBookTitleByID(this.value);" id="bookid" name="bookid">
+                                    <label id="book_name_id"></label>
                             </div>     
                             <div><h5><center>OR</center></h5></div>  
                             <div class="form-group">
                                 <label for="isbn">ISBN</label>
-                                <input type="number" class="form-control mt-3 mb-3" required id="isbn" name="isbn">
+                                <input type="number" class="form-control" oninput="displayBookTitleByName(this.value);" id="isbn" name="isbn">
+                                <label id="book_name_isbn"></label>
                             </div>
-                            <button id="btn_submit" type="submit" class="btn btn-custom mt-3 mb-3" >Delete</button>
-                            <button id="btn_submit" type="reset" class="btn btn-custom mt-3 mb-3" >Cancel</button>
+                            <button id="delete" onclick="" type="submit" class="btn btn-custom mt-3 mb-3" >Delete</button>
                         </form>
                     </div>
                 </div>

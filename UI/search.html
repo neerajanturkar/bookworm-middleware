@@ -44,14 +44,18 @@
             var row;
             obj.data.forEach(element => {
                if(element.isbn == isbn){
-
+                   var copies = element.copies;
+                   
                    document.getElementById("book_name").value = element.title;
 
                    $('#myModal').find('#book_name').html(element.title);
                    $('#myModal').find('#author').html(element.authors);
                    $('#myModal').find('#isbn').html(element.isbn);
                    $('#myModal').find('#publication').html(element.publication);
-                   element.copies.forEach(book =>{
+                   $('#cp_table').empty();
+                   row = ('<tr><td><b>Book Id<b></td><td><b>Available</b></td></tr>');
+                   $('#cp_table').append(row);
+                   copies.forEach(book =>{
                        var available = null;
                        if(book.is_borrowed == 0){
                            available = "Yes";
@@ -59,7 +63,7 @@
                            available = "No";
                        }
                        row = ('<tr><td>'+book.book_id+'</td><td>'+available+'</td></tr>');
-                       $('#cp_tab').append(row);
+                       $('#cp_table').append(row);
                    });
 
                }
@@ -196,14 +200,25 @@
                             <td><b>Publication</b></td>
                             <td id="publication"></td>
                         </tr>
-                        <tr>
-                            <td><b>Copies</b></td>
-                        </tr>
-                        <tr>
-                            <td><b>Id</b></td>
-                            <td><b>Available</b></td>
-                        </tr>
+<!--                        <tr>-->
+<!--                            <td><b>Copies</b></td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td><b>Id</b></td>-->
+<!--                            <td><b>Available</b></td>-->
+<!--                        </tr>-->
 
+              </table>
+              <table id="cp_table" class="table table-borderless">
+                  <tbody id="copies_table1">
+                  <tr>
+                      <td><b>Copies</b></td>
+                  </tr>
+                  <tr>
+                      <td><b>Id</b></td>
+                      <td><b>Available</b></td>
+                  </tr>
+                  </tbody>
               </table>
             </div>
             <div class="modal-footer">

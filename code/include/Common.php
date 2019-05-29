@@ -37,7 +37,7 @@
 	{
 		$time_elapsed=microtime(true) - $GLOBALS['start'];
 		$response->timeInMillis=round($time_elapsed * 1000);
-		$outputdata=json_encode($response);
+		$outputdata=json_encode($response);//		print_r($response);
 		// log4phpResponse($response);
 		echo $outputdata;
 		exit();

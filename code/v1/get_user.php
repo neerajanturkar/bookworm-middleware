@@ -5,10 +5,11 @@ try
 {
     verifyRequiredParams('user_id',$inputdata);
     $user = new User();
-    $result = $user->delete_user($inputdata);
-    if($result['success'] == 1){
+    $result = $user->get_user($inputdata);
+    if($result){
         $response->success = true;
-        $response->message = $result['message'];
+        $response->message = "User details fetched successfully";
+        $response->data = $result;
         $response->responseCode = 200;
     }else{
         $response->success = false;
