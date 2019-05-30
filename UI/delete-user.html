@@ -26,7 +26,7 @@
 
                 }
             };
-            xmlhttp.open("GET", "http://localhost/bookworm-middleware/code/v1/get_user?user_id=" + str, true);
+            xmlhttp.open("GET", "http://localhost/bookworm-middleware/code/v1/get_user.php?user_id=" + str, true);
             xmlhttp.setRequestHeader("Content-type", "application/json");
             xmlhttp.send();
         }
@@ -137,10 +137,11 @@
                         <form id="delete-user">
                              <div class="form-group mt-3 mb-3">
                             <label for="userid">UserId</label>
-                            <input type="number" class="form-control mt-3 mb-3" required id="userid" name="userid">
+                            <input type="number" class="form-control mt-3 mb-3" oninput="displayUsername(this.value)" required id="userid" name="userid">
+                             <label id="user_name"></label>
                         </div>        
-                            <button id="btn_submit" type="submit" class="btn btn-custom mt-3 mb-3" >Delete</button>
-                            <button id="btn_cancel" type="reset" class="btn btn-custom mt-3 mb-3" >Cancel</button>
+                            <button id="delete" type="submit" class="btn btn-custom mt-3 mb-3" >Delete</button>
+
                         </form>
                     </div>
                 </div>
