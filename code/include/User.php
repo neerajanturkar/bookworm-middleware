@@ -168,6 +168,59 @@ class User
             return null;
         }
     }
+    public function update_user($inputdata){
+        $id = $inputdata['id'];
+        $firstname = $inputdata['firstname'];
+        $lastname = $inputdata['lastname'];
+        $email = $inputdata['email'];
+        $phone = $inputdata['phone'];
+        $type = $inputdata['user_type'];
+        $addressline1 = $inputdata['address_line1'];
+        $addressline2 = $inputdata['address_line2'];
+        $city = $inputdata['city'];
+        $state = $inputdata['state'];
+        $pincode = $inputdata['pincode'];
+        $country = $inputdata['country'];
+        $dob = $inputdata['dob'];
+
+        $sql = "UPDATE user 
+                SET user_type =".$type.",
+                    firstname ='".$firstname."',
+                    lastname ='".$lastname."',
+                    phone='".$phone."',
+                    email='".$email."',
+                    address_line1='".$addressline1."',
+                    address_line2='".$addressline2."',
+                    city='".$city."',
+                    state='".$state."',
+                    country='".$country."',
+                    pincode=".$pincode.",
+                    dob='".$dob."'
+                WHERE id=".$id.";";
+
+//        print_r($sql);die;
+        $stmt = $this->con->prepare($sql);
+
+
+        $stmt->execute();
+        if($stmt === false) {
+            trigger_error('Wrong SQL: ' . $sql . ' Error: ' . $this->con->errno . ' ' . $this->con->error, E_USER_ERROR);
+        }
+        print_r($this->con->error);
+
+
+        if($stmt->affected_rows == 1){
+            $res['success'] = 1;
+            $res['message'] = "User updated successfully";
+        }else if($stmt->affected_rows == 0 && $stmt->errno == 0){
+            $res['success'] = 1;
+            $res['message'] = "Nothing to Update";
+        }else{
+            $res['success'] = 0;
+            $res['message'] = "Failed to update";
+        }
+        return $res;
+    }
 }
 ?>
 

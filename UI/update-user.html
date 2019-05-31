@@ -13,6 +13,88 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   <link rel="stylesheet" href="library.css">
   <script type="text/javascript" src="library.js"></script>
+    <script>
+
+        $(function() {
+            $("#submit").click(function () {
+                var id = document.getElementById("id").value;
+                var firstname = document.getElementById("firstname").value;
+                var lastname =document.getElementById("lastname").value;
+                var emailid = document.getElementById("emailid").value;
+                var dob= document.getElementById("dob").value;
+                var type=document.getElementById("type").selectedIndex;
+                var addressline1=document.getElementById("addressline1").value;
+                var addressline2=document.getElementById("addressline2").value;
+                var city=document.getElementById("city").value;
+                var state=document.getElementById("state").value;
+                var pincode=document.getElementById("pincode").value;
+                var country=document.getElementById("country").value;
+                var phone=document.getElementById("phone").value;
+
+                var xmlhttp = new XMLHttpRequest();
+                var theUrl = "http://localhost/bookworm-middleware/code/v1/update_user.php?id="+id
+                                +"&firstname="+firstname
+                                +"&lastname="+lastname
+                                +"&email="+emailid
+                                +"&phone="+phone
+                                +"&user_type="+type
+                                +"&address_line1="+addressline1
+                                +"&address_line2="+addressline2
+                                +"&city="+city
+                                +"&state="+state
+                                +"&pincode="+pincode
+                                +"&country="+country
+                                +"&dob="+dob;
+
+
+                xmlhttp.onreadystatechange = function () {
+
+                    if (this.readyState == 4 && this.status == 200) {
+                        console.log(this.response);
+                        obj = JSON.parse(this.response);
+                        alert(obj.message);
+                        location.reload();
+
+                    }
+
+                }
+                xmlhttp.open("GET", theUrl, false);
+                xmlhttp.setRequestHeader("Content-Type", "application/json");
+                xmlhttp.send();
+
+            });
+            return false;
+        });
+
+        function getUserDetails(str) {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log(this.response);
+                    obj = JSON.parse(this.response);
+
+                    document.getElementById("firstname").value = obj.data.firstname;
+                    document.getElementById("lastname").value = obj.data.lastname;
+                    document.getElementById("emailid").value = obj.data.email;
+                    document.getElementById("dob").value = obj.data.dob;
+                    document.getElementById("type").selectedIndex = obj.data.user_type;
+                    document.getElementById("addressline1").value = obj.data.address_line1;
+                    document.getElementById("addressline2").value = obj.data.address_line2;
+                    document.getElementById("city").value = obj.data.city;
+                    document.getElementById("state").value = obj.data.state;
+                    document.getElementById("pincode").value = obj.data.pincode;
+                    document.getElementById("country").value = obj.data.country;
+                    document.getElementById("phone").value = obj.data.phone;
+
+                }
+            };
+            xmlhttp.open("GET", "http://localhost/bookworm-middleware/code/v1/get_user?user_id=" + str, true);
+            xmlhttp.setRequestHeader("Content-type", "application/json");
+            xmlhttp.send();
+        }
+
+    //    http://localhost/bookworm-middleware/code/v1/update_user.php?id=10001&firstname=Kartikey&lastname=Tripathi&email=kartikey.tripathi@stud.hochschule-heidelberg.de&phone=4915123456784&user_type=1&address_line1=828, Bonhoeffer Strasse&address_line2=Weiblingen&city=Heidelberg&state=BW&pincode=69129&country=Germany&dob=1993-01-14
+    </script>
 </head>
 <body>
     <!-- Header -->
@@ -83,29 +165,37 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="add-book-custom">
-                        <form action="/action_page.php">
+                        <form>
                             <div class="form-group">
-                                <label for="fn">First name</label>
+                                <label for="id">User Id</label>
+                                <input type="text" class="form-control mt-3 mb-3" onchange="getUserDetails(this.value);" id="id" name="text">
+                            </div>
+                            <div class="form-group">
+                                <label for="firstname">First name</label>
                                 <input type="text" class="form-control mt-3 mb-3" id="firstname" name="text">
                             </div>
                             <div class="form-group">
-                                <label for="ln">Last name</label>
+                                <label for="lastname">Last name</label>
                                 <input type="text" class="form-control mt-3 mb-3" id="lastname" name="text">
                             </div>
                             <div class="form-group">
-                                <label for="email">Email</label>
+                                <label for="emailid">Email</label>
                                 <input type="email" class="form-control mt-3 mb-3" id="emailid" name="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="text" class="form-control mt-3 mb-3" id="phone" name="phone">
                             </div>
                             
                             <div class="form-group">
-                                <label for="start">DOB</label>
-                                <input type="date" class="mt-3 mb-3" id="start" name="dob" min="1940-01-01" max="2018-01-01">
+                                <label for="dob">DOB</label>
+                                <input type="date" class="mt-3 mb-3" id="dob" name="dob" min="1940-01-01" max="2018-01-01">
                             </div>
-                            <select name="type" class="custom-select mb-3">
+                            <select id="type" name="type" class="custom-select mb-3">
                                 <option selected>User type</option>
-                                <option value="student">Student</option>
-                                <option value="professor">Professor</option>
-                                <option value="librarystaff">Library staff</option>
+                                <option value="1">Student</option>
+                                <option value="2">Professor</option>
+                                <option value="3">Library staff</option>
                             </select>
                             <div class="form-group">
                                 <label for="addressline1">Address line 1</label>
@@ -131,8 +221,8 @@
                                 <label for="pincode">Pincode</label>
                                 <input type="number" class="form-control mt-3 mb-3" id="pincode" name="text">
                             </div>
-                            <button type="submit" class="btn btn-custom mt-3 mb-3">Clear</button>
-                            <button type="submit" class="btn btn-custom mt-3 mb-3">Update</button>
+                            <button type="reset" class="btn btn-custom mt-3 mb-3">Clear</button>
+                            <button id="submit" type="submit" class="btn btn-custom mt-3 mb-3">Update</button>
                          </form>
                      </div>
                  </div>
