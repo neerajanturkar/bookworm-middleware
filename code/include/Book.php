@@ -845,9 +845,9 @@ class Book{
     public function get_due_book(){
         try{
             $today = date("Y-m-d");
-            $today = '2019-07-29';
+//            $today = '2019-07-29';
 
-            $sql = "SELECT t1.id , t3.title , t4.firstname , t4.lastname , t4.email FROM `borrow` as t1
+            $sql = "SELECT t1.book_id as id , t3.title , t4.firstname , t4.lastname , t4.email FROM `borrow` as t1
                     INNER JOIN catalog as t2
                     ON t1.book_id = t2.book_id
                     INNER JOIN book as t3
@@ -860,9 +860,14 @@ class Book{
                 trigger_error('Wrong SQL: ' . $sql . ' Error: ' . $this->con->errno . ' ' . $this->con->error, E_USER_ERROR);
             }
 
-            $result = $stmt->fetch_assoc();
+            $result = $stmt;
+            $data = array();
+            foreach($result as $row){
+                array_push($data,$row);
+            }
 
-            return $result;
+
+            return $data;
         }catch (Exception $exception){
             print_r($exception);
             return null;
