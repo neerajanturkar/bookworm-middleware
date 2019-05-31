@@ -77,6 +77,38 @@
             });
             return false;
         });
+
+        function getBookDetails(str) {
+
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+
+                if (this.readyState == 4 && this.status == 200) {
+
+
+                    obj = JSON.parse(this.response);
+                    console.log(obj);
+                    document.getElementById("title").value = obj.data.title;
+                    document.getElementById("subtitle").value = obj.data.subtitle;
+                    document.getElementById("publication").value = obj.data.publication;
+                    document.getElementById("published_date").value = obj.data.published_date;
+                    document.getElementById("type").value = obj.data.type;
+                    document.getElementById("discription").value = obj.data.description;
+                    document.getElementById("language").value = obj.data.language;
+                    document.getElementById("authors").value = obj.data.title;
+                    document.getElementById("title").value = obj.data.title;
+
+
+
+                }
+            };
+
+            var url = "http://localhost/bookworm-middleware/code/v1/get_books.php?like="+str;
+            // alert(url);
+            xmlhttp.open("GET", url , true);
+            xmlhttp.setRequestHeader("Content-type", "application/json");
+            xmlhttp.send();
+        }
     </script>
  
 </head>
@@ -155,7 +187,7 @@
                             
                             <div class="form-group">
                                 <label for="isbn">ISBN</label>
-                                <input type="number" class="form-control mt-3 mb-3" required id="isbn" name="isbn" onkeyup="showHint(this.value)" >
+                                <input type="number" class="form-control" required id="isbn" oninput="getBookDetails(this.value);" name="isbn" >
                             </div>
                             <div class="form-group">
                                 <label for="title">Title</label>
@@ -168,10 +200,6 @@
                             <div class="form-group">
                                 <label for="publication">Publication</label>
                                 <input type="text" class="form-control mt-3 mb-3" id="publication" name="publication">
-                            </div>
-                            <div class="form-group">
-                                <label for="cnt">Book count</label>
-                                <input type="number" class="form-control mt-3 mb-3" id="cnt" name="cnt" value="1">
                             </div>
                             <div class="form-group">
                                 <label for="start">Publication date</label>

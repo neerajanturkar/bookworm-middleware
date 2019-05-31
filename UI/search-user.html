@@ -17,54 +17,72 @@
       var obj;
         function searchContent(val){
             var xmlhttp = new XMLHttpRequest();
-            xmlhttp.open("GET", "http://localhost/bookworm-middleware/code/v1/get_books.php?like=" + val, true);
+            xmlhttp.open("GET", "http://localhost/bookworm-middleware/code/v1/get_users.php?like=" + val, true);
             xmlhttp.setRequestHeader("Content-type", "application/json");
             xmlhttp.send();
         
             xmlhttp.onreadystatechange = function () {
 
                 if (this.readyState == 4 && this.status == 200) {   
-                    $('#book-list').empty();
+                    $('#user-list').empty();
                     obj = JSON.parse(this.response);
                     console.log(obj);
                     obj.data.forEach(element => {
-                      //  console.log(element.title);
+                       console.log(element.id);
                     //   $('#book-list').append($('<li>').append($('<span>')).text(element.title).attr('id',element.isbn));
                     //     });
-                    $("#book-list").append('<li class="search" data-toggle="modal" data-target="#myModal" onclick="getDetails('+element.isbn+')" ><a href="#">'+element.title+'</a></li>');
-                                       
+                    $("#user-list").append('<li class="search" data-toggle="modal" data-target="#myModal" onclick="getDetails('+element.id+')" ><a href="#">'+element.firstname+' '+element.lastname+' </a></li>');
+
                     });
                 }
             }
     
         }
-        function getDetails(isbn){
+        function getDetails(id){
             var modal = document.getElementById("myModal");
             modal.style.display = "block";
             var row;
             obj.data.forEach(element => {
-               if(element.isbn == isbn){
-                   var copies = element.copies;
+               if(element.id == id){
+                   var copies = element.books;
                    
-                   document.getElementById("book_name").value = element.title;
+                   // document.getElementById("book_name").value = element.title;
+                   $('#myModal').find('#user_id').html(element.id);
+                   $('#myModal').find('#user_name').html(element.firstname + " " + element.lastname);
+                   $('#myModal').find('#type').html(element.type);
 
-                   $('#myModal').find('#book_name').html(element.title);
-                   $('#myModal').find('#author').html(element.authors);
-                   $('#myModal').find('#isbn').html(element.isbn);
-                   $('#myModal').find('#publication').html(element.publication);
                    $('#cp_table').empty();
-                   row = ('<tr><td><b>Book Id<b></td><td><b>Available</b></td></tr>');
+                   row = ('<tr><td><b>Books Borrowed<b></td></tr>');
+                   $('#cp_table').append(row);
+                   row = ('<tr><td><b>Title<b></td><td><b>Returned</b></td></tr>');
                    $('#cp_table').append(row);
                    copies.forEach(book =>{
                        var available = null;
-                       if(book.is_borrowed == 0){
+                       if(book.book_possesed == 0){
                            available = "Yes";
                        }else{
                            available = "No";
                        }
-                       row = ('<tr><td>'+book.book_id+'</td><td>'+available+'</td></tr>');
+                       row = ('<tr><td>'+book.title+'</td><td>'+available+'</td></tr>');
                        $('#cp_table').append(row);
                    });
+
+                   // $('#myModal').find('#author').html(element.authors);
+                   // $('#myModal').find('#isbn').html(element.isbn);
+                   // $('#myModal').find('#publication').html(element.publication);
+                   // $('#cp_table').empty();
+                   // row = ('<tr><td><b>Book Id<b></td><td><b>Available</b></td></tr>');
+                   // $('#cp_table').append(row);
+                   // copies.forEach(book =>{
+                   //     var available = null;
+                   //     if(book.is_borrowed == 0){
+                   //         available = "Yes";
+                   //     }else{
+                   //         available = "No";
+                   //     }
+                   //     row = ('<tr><td>'+book.book_id+'</td><td>'+available+'</td></tr>');
+                   //     $('#cp_table').append(row);
+                   // });
 
                }
             });
@@ -145,7 +163,7 @@
                         <div class="card-body row no-gutters align-items-center">
                             <div class="col">
                                 <input class="form-control form-control-lg form-control-borderless mt-3 mb-3" type="search" oninput="searchContent(this.value)"
-                                placeholder="Search by userid, user name...">
+                                placeholder="Search by userid, name, email, phone...">
                             </div>
                             <!--end of col-->
                             <div class="col-auto">
@@ -185,23 +203,32 @@
                 <table id="cp_tab" class="table table-borderless">
                     <tbody id="copies_table">
                         <tr>
-                            <td><b>User Id</b></td>
+                            <td><b>User id</b></td>
+                            <td id="user_id"></td>
+                        </tr>
+                        <tr>
+                            <td><b>Name</b></td>
                             <td id="user_name"></td>
                         </tr>
                         <tr> 
-                            <td><b>User name</b></td>
-                            <td id="author"></td>
+                            <td><b>Type</b></td>
+                            <td id="type"></td>
                         </tr>
-                        <tr>
-                            <td><b>ISBN</b></td>
-                            <td id="isbn"></td>
-                        </tr>
-                        <tr>
-                            <td><b>Publication</b></td>
-                            <td id="publication"></td>
-                        </tr>
+                       
                     </tbody>
               </table>
+
+            <table id="cp_table" class="table table-borderless">
+                <tbody id="copies_table1">
+                <tr>
+                    <td><b>Books Borrowed</b></td>
+                </tr>
+                <tr>
+                    <td><b>Returned</b></td>
+
+                </tr>
+                </tbody>
+            </table>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

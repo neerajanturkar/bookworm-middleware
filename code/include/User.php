@@ -124,6 +124,50 @@ class User
             return null;
         }
     }
+
+    public  function get_all_users($inputdata){
+        try{
+            if(array_key_exists('like', $inputdata)){
+                $like = "%".$inputdata['like']."%";
+            }else{
+                $like = "%";
+            }
+            $sql = "SELECT  t1.id, t1.`firstname`, t1.`lastname`, t2.type , t1.`phone`, t1.`email`, t1.`created_on` 
+                    FROM `user` as t1
+                    INNER JOIN `user_type` as t2
+                    ON t1.user_type = t2.id
+                    WHERE (t1.`firstname` LIKE '".$like."'  ) 
+                    OR (t1.`lastname` LIKE '".$like."' ) OR (t1.`email` LIKE '".$like."' ) OR (t1.`phone` LIKE '".$like."' );";
+
+            $stmt = $this->con->prepare($sql);
+            $stmt->execute();
+            $details = $stmt->get_result();
+
+            $data = array();
+             foreach($details as $row){
+                 $sql = "SELECT t1.title , (CASE WHEN t3.actual_dor is null then 1 else 0 end) as book_possesed
+                            FROM book AS t1
+                            INNER JOIN catalog AS t2
+                            ON t1.isbn = t2.isbn
+                            INNER JOIN borrow AS t3
+                            ON t3.book_id = t2.book_id and t3.user_id =".$row['id'].";";
+                 $stmt = $this->con->prepare($sql);
+                 $stmt->execute();
+                 $book_details = $stmt->get_result();
+                 $book_data = array();
+                 foreach ($book_details as $book_row){
+                     array_push($book_data,$book_row);
+                 }
+                 $row['books'] = $book_data;
+
+                array_push($data,$row);
+             }
+
+             return $data;
+        }catch (Exception $exception){
+            return null;
+        }
+    }
 }
 ?>
 
