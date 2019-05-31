@@ -248,7 +248,6 @@ h2.padding-bottom-custom {
 
 ol#book-list {
     list-style-type: none;
-    font-weight: bold;
 }
 
 /* about us */
@@ -280,6 +279,27 @@ ol#book-list {
     clear: both;
     top: 35px;
     left: 250px;
+}
+p.desg-right {
+    text-align: left;
+    position: absolute;
+    clear: both;
+    top: 72px;
+    right: 516px;
+}
+p.desg-right-p {
+    text-align: left;
+    position: absolute;
+    clear: both;
+    top: 72px;
+    right: 550px;
+}
+p.desg-left {
+    text-align: right;
+    position: absolute;
+    clear: both;
+    top: 72px;
+    left: 513px;
 }
 
 
