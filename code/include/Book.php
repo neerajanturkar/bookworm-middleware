@@ -157,13 +157,127 @@ class Book{
             $stmt->close();
             $dor = $result['dor'];
 
-            $sql1 = "CALL borrow_book(".$book_id.",".$user_id.",'".$doi."','".$dor."',@success);";
+            $sql1 = "CALL borrow_book(".$book_id.",".$user_id.",'".$doi."','".$dor."',@success,@email,@title);";
             $stmt1 = $this->con->query($sql1);
 
-
-            $select = $this->con->query('SELECT @success');
+//            print_r($sql1);
+            $select = $this->con->query('SELECT @success,@email,@title');
             $result = $select->fetch_assoc();
             $success = $result['@success'];
+
+            if($success == 1){
+                //send email
+                $email = $result['@email'];
+                $title = $result['@title'];
+                $subject = "Book with title : ".$title." borrowed";
+
+                $html = '<!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                      <title>Book borrowed</title>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+                      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+                      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+                      <link rel="stylesheet" href="bootstrap/css/font-awesome.min.css">
+                      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+                      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+                      <!-- <link rel="stylesheet" href="library.css"> -->
+                      <style>
+                      .jumbotron.jumbotron-fluid {
+                                        background-color: #F57C00;
+                        padding: 15px;
+                        margin: 0px;
+                        width:100%;
+                        z-index: 999;
+                        text-align: center;
+                       
+                    }
+                    i.fa.fa-book {
+                                        color: white;
+                                        font-size: 30px;
+                        display: inline;
+                    }
+                    .white-custom{
+                                        color: white;
+                                        padding: 20px;
+                        margin: 0px;
+                        display: inline;
+                    }
+                    
+                    
+                    /* footer */
+                    footer{
+                                        background-color: black;
+                        padding: 2px;
+                    }
+                    .p-footer {
+                                        color: white;
+                                        text-align: center;
+                        
+                    }
+                    
+                    table.center {
+                                        margin-left:auto; 
+                        margin-right:auto;
+                        text-align: center;
+                    } 
+                      </style>
+                      
+                    </head>
+                    <body>
+                        <!-- Header -->
+                        <div class="jumbotron jumbotron-fluid jumbotron-fluid-bgcolor">
+                            <div class="container">
+                                <i class="fa fa-book"></i>
+                                <h2 class="white-custom">Campus Library</h2>
+                            </div>
+                        </div>
+                        
+                                     <br/><br/>
+                            
+                    
+                                        <h2 align="center" >Book Checked Out</h2>
+                    
+                                        <br/>
+                                        <div >
+                                                <table class="center" border="3">
+                                                        
+                                                        <tr>
+                                                                <th> Book Name </th> 
+                                                                <th> Return Book By</th>
+                                                        </tr>
+                                                        <tr>
+                                                                <td>'.$title.'</td>
+                                                                <td>'.$dor.'</td>
+                                                        </tr>
+                                                        
+                                                    
+                                                </table>
+                                        </div>
+                                      
+                                    </div>
+                            </div>
+                       
+                            
+                       
+                            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                    
+                         <!-- Footer -->
+                        
+                         <footer> 
+                            <p class="p-footer mt-3">@2019 All rights resevered by Library system</p>
+                        </footer>
+                    </body>
+                    </html>';
+
+
+
+                $result = SendMail($email, $subject, $html, $html);
+
+            }
 
             return $success;
         }catch(Exception $ex ){
@@ -182,19 +296,140 @@ class Book{
             }else{
                 $fine_payed = 0;
             }
+            if($fine_payed == 1){
+                $fine_payed_text = "Yes";
+            }else{
+                $fine_payed_text = "No";
+            }
             $dor = date("Y-m-d");
 
-            $sql = "CALL return_book(".$book_id.",".$user_id.",'".$dor."',@success,@fine);";
+            $sql = "CALL return_book(".$book_id.",".$user_id.",'".$dor."',@success,@fine,@email,@title);";
 //            print_r($sql);die;
             $stmt = $this->con->query($sql);
 
 
-            $select = $this->con->query('SELECT @success , @fine');
+            $select = $this->con->query('SELECT @success , @fine , @email ,@title');
             $result = $select->fetch_assoc();
             $success = $result['@success'];
             $fine = $result['@fine'];
             $res['success'] = $success;
             $res['fine'] = $fine;
+
+            if($success == 1){
+                $email = $result['@email'];
+                $title = $result['@title'];
+                $subject = "Book ".$title." returned";
+                $html = '<!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                      <title>Book Returned!</title>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+                      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+                      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+                      <link rel="stylesheet" href="bootstrap/css/font-awesome.min.css">
+                      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+                      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+                      <!-- <link rel="stylesheet" href="library.css"> -->
+                      <style>
+                      .jumbotron.jumbotron-fluid {
+                                        background-color: #F57C00;
+                        padding: 15px;
+                        margin: 0px;
+                        width:100%;
+                        z-index: 999;
+                        text-align: center;
+                       
+                    }
+                    i.fa.fa-book {
+                                        color: white;
+                                        font-size: 30px;
+                        display: inline;
+                    }
+                    .white-custom{
+                                        color: white;
+                                        padding: 20px;
+                        margin: 0px;
+                        display: inline;
+                    }
+                    
+                    
+                    /* footer */
+                    footer{
+                                        background-color: black;
+                        padding: 2px;
+                    }
+                    .p-footer {
+                                        color: white;
+                                        text-align: center;
+                        
+                    }
+                    
+                    table.center {
+                                        margin-left:auto; 
+                        margin-right:auto;
+                        text-align: center;
+                    } 
+                      </style>
+                      
+                    </head>
+                    <body>
+                        <!-- Header -->
+                        <div class="jumbotron jumbotron-fluid jumbotron-fluid-bgcolor">
+                            <div class="container">
+                                <i class="fa fa-book"></i>
+                                <h2 class="white-custom">Campus Library</h2>
+                            </div>
+                        </div>
+                        
+                                     <br/><br/>
+                            
+                    
+                                        <h2 align="center" >Book Returned</h2>
+                    
+                                        <br/>
+                                        <div >
+                                                <table class="center" border="3">
+                                                        
+                                                        <tr>
+                                                                <th> Book Name </th> 
+                                                                <th> Returned On</th>
+                                                                <th> Fine</th>
+                                                                
+                                                        </tr>
+                                                        <tr>
+                                                                <td>'.$title.'</td>
+                                                                <td>'.$dor.'</td>
+                                                                <td>'.$fine.'</td>
+                                                                
+                                                        </tr>
+                                                        
+                                                    
+                                                </table>
+                                        </div>
+                                      
+                                    </div>
+                            </div>
+                       
+                            
+                       
+                            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                    
+                         <!-- Footer -->
+                        
+                         <footer> 
+                            <p class="p-footer mt-3">@2019 All rights resevered by Library system</p>
+                        </footer>
+                    </body>
+                    </html>';
+
+
+
+                $result = SendMail($email, $subject, $html, $html);
+
+            }
             return $res;
         }catch(Exception $ex ){
             echo $ex;
@@ -209,13 +444,130 @@ class Book{
             $user_id = $inputdata['user_id'];
 
 
-            $sql = "CALL renew_book(".$book_id.",".$user_id.",@success);";
+            $sql = "CALL renew_book(".$book_id.",".$user_id.",@success,@newDor,@email,@title);";
             $stmt = $this->con->query($sql);
 
 
-            $select = $this->con->query('SELECT @success');
+            $select = $this->con->query('SELECT @success,@newDor,@email,@title');
             $result = $select->fetch_assoc();
             $success = $result['@success'];
+
+            if($success == 1) {
+                $email = $result['@email'];
+                $title = $result['@title'];
+                $new_dor = $result['@newDor'];
+                $subject = "Book " . $title . " renewed successfully";
+
+                $html = '<!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                      <title>Book Returned!</title>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+                      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+                      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+                      <link rel="stylesheet" href="bootstrap/css/font-awesome.min.css">
+                      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+                      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+                      <!-- <link rel="stylesheet" href="library.css"> -->
+                      <style>
+                      .jumbotron.jumbotron-fluid {
+                                        background-color: #F57C00;
+                        padding: 15px;
+                        margin: 0px;
+                        width:100%;
+                        z-index: 999;
+                        text-align: center;
+                       
+                    }
+                    i.fa.fa-book {
+                                        color: white;
+                                        font-size: 30px;
+                        display: inline;
+                    }
+                    .white-custom{
+                                        color: white;
+                                        padding: 20px;
+                        margin: 0px;
+                        display: inline;
+                    }
+                    
+                    
+                    /* footer */
+                    footer{
+                                        background-color: black;
+                        padding: 2px;
+                    }
+                    .p-footer {
+                                        color: white;
+                                        text-align: center;
+                        
+                    }
+                    
+                    table.center {
+                                        margin-left:auto; 
+                        margin-right:auto;
+                        text-align: center;
+                    } 
+                      </style>
+                      
+                    </head>
+                    <body>
+                        <!-- Header -->
+                        <div class="jumbotron jumbotron-fluid jumbotron-fluid-bgcolor">
+                            <div class="container">
+                                <i class="fa fa-book"></i>
+                                <h2 class="white-custom">Campus Library</h2>
+                            </div>
+                        </div>
+                        
+                                     <br/><br/>
+                            
+                    
+                                        <h2 align="center" >Book Renewed</h2>
+                    
+                                        <br/>
+                                        <div >
+                                                <table class="center" border="3">
+                                                        
+                                                        <tr>
+                                                                <th> Book Name </th> 
+                                                                <th> New Return By</th>
+                                                               
+                                                                
+                                                        </tr>
+                                                        <tr>
+                                                                <td>'.$title.'</td>
+                                                                <td>'.$new_dor.'</td>
+                                                               
+                                                                
+                                                        </tr>
+                                                        
+                                                    
+                                                </table>
+                                        </div>
+                                      
+                                    </div>
+                            </div>
+                       
+                            
+                       
+                            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                    
+                         <!-- Footer -->
+                        
+                         <footer> 
+                            <p class="p-footer mt-3">@2019 All rights resevered by Library system</p>
+                        </footer>
+                    </body>
+                    </html>';
+                $result = SendMail($email, $subject, $html, $html);
+
+
+
+            }
 
             return $success;
         }catch(Exception $ex ){
@@ -487,6 +839,32 @@ class Book{
 
             return $result;
         }catch (Exception $exception){
+            return null;
+        }
+    }
+    public function get_due_book(){
+        try{
+            $today = date("Y-m-d");
+            $today = '2019-07-29';
+
+            $sql = "SELECT t1.id , t3.title , t4.firstname , t4.lastname , t4.email FROM `borrow` as t1
+                    INNER JOIN catalog as t2
+                    ON t1.book_id = t2.book_id
+                    INNER JOIN book as t3
+                    ON t2.isbn = t3.isbn 
+                    INNER JOIN user as t4 
+                    ON t1.user_id = t4.id
+                    AND t1.`dor` = '".$today."' AND t1.actual_dor is null;";
+            $stmt = $this->con->query($sql);
+            if($stmt === false) {
+                trigger_error('Wrong SQL: ' . $sql . ' Error: ' . $this->con->errno . ' ' . $this->con->error, E_USER_ERROR);
+            }
+
+            $result = $stmt->fetch_assoc();
+
+            return $result;
+        }catch (Exception $exception){
+            print_r($exception);
             return null;
         }
     }
