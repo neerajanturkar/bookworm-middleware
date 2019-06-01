@@ -101,7 +101,7 @@ class Book{
                 $description = "";
             }
             if (array_key_exists('published_date', $inputdata)) {
-                $published_date = $inputdata['publishedDate'];
+                $published_date = $inputdata['published_date'];
             }else{
                 $published_date = "";
             }
@@ -845,7 +845,6 @@ class Book{
     public function get_due_book(){
         try{
             $today = date("Y-m-d");
-//            $today = '2019-07-29';
 
             $sql = "SELECT t1.book_id as id , t3.title , t4.firstname , t4.lastname , t4.email FROM `borrow` as t1
                     INNER JOIN catalog as t2
@@ -867,6 +866,147 @@ class Book{
             }
 
 
+            return $data;
+        }catch (Exception $exception){
+            print_r($exception);
+            return null;
+        }
+    }
+
+    public function send_due_reminders(){
+        try{
+            $today = date("Y-m-d");
+
+            $sql = "SELECT t1.book_id as id , t3.title , t4.firstname , t4.lastname , t4.email FROM `borrow` as t1
+                    INNER JOIN catalog as t2
+                    ON t1.book_id = t2.book_id
+                    INNER JOIN book as t3
+                    ON t2.isbn = t3.isbn 
+                    INNER JOIN user as t4 
+                    ON t1.user_id = t4.id
+                    AND t1.`dor` = '".$today."' AND t1.actual_dor is null;";
+            $stmt = $this->con->query($sql);
+            if($stmt === false) {
+                trigger_error('Wrong SQL: ' . $sql . ' Error: ' . $this->con->errno . ' ' . $this->con->error, E_USER_ERROR);
+            }
+
+            $result = $stmt;
+            $data = array();
+            foreach($result as $row){
+
+                $email = $row['email'];
+                $title = $row['title'];
+                $name = $row['firstname']." ".$row['lastname'];
+                $subject = "Book ".$title." is due for return today!";
+
+                $html = '<!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                      <title>Book borrowed</title>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+                      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+                      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+                      <link rel="stylesheet" href="bootstrap/css/font-awesome.min.css">
+                      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+                      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+                      <!-- <link rel="stylesheet" href="library.css"> -->
+                      <style>
+                      .jumbotron.jumbotron-fluid {
+                                        background-color: #F57C00;
+                        padding: 15px;
+                        margin: 0px;
+                        width:100%;
+                        z-index: 999;
+                        text-align: center;
+                       
+                    }
+                    i.fa.fa-book {
+                                        color: white;
+                                        font-size: 30px;
+                        display: inline;
+                    }
+                    .white-custom{
+                                        color: white;
+                                        padding: 20px;
+                        margin: 0px;
+                        display: inline;
+                    }
+                    
+                    
+                    /* footer */
+                    footer{
+                                        background-color: black;
+                        padding: 2px;
+                    }
+                    .p-footer {
+                                        color: white;
+                                        text-align: center;
+                        
+                    }
+                    
+                    table.center {
+                                        margin-left:auto; 
+                        margin-right:auto;
+                        text-align: center;
+                    } 
+                      </style>
+                      
+                    </head>
+                    <body>
+                        <!-- Header -->
+                        <div class="jumbotron jumbotron-fluid jumbotron-fluid-bgcolor">
+                            <div class="container">
+                                <i class="fa fa-book"></i>
+                                <h2 class="white-custom">Campus Library</h2>
+                            </div>
+                        </div>
+                        
+                                     <br/><br/>
+                            
+                                        <h2 align="center" >Dear '.$name.',</h2>
+                                        <h2 align="center" >Please return/renew the following book today to avoid fine!</h2>
+                    
+                                        <br/>
+                                        <div >
+                                                <table class="center" border="3">
+                                                        
+                                                        <tr>
+                                                                <th> Book </th> 
+                                                                
+                                                        </tr>
+                                                        <tr>
+                                                                <td>'.$title.'</td>
+                                                                
+                                                        </tr>
+                                                        
+                                                    
+                                                </table>
+                                        </div>
+                                      
+                                    </div>
+                            </div>
+                       
+                            
+                       
+                            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                    
+                         <!-- Footer -->
+                        
+                         <footer> 
+                            <p class="p-footer mt-3">@2019 All rights resevered by Library system</p>
+                        </footer>
+                    </body>
+                    </html>';
+
+
+
+                $result = SendMail($email, $subject, $html, $html);
+
+                array_push($data,$row);
+            }
             return $data;
         }catch (Exception $exception){
             print_r($exception);

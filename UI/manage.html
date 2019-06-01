@@ -13,6 +13,59 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
   <link rel="stylesheet" href="library.css">
   <script type="text/javascript" src="library.js"></script>
+
+    <script>
+
+        $(function() {
+            var xmlhttp = new XMLHttpRequest();
+            var theUrl = "http://localhost/bookworm-middleware/code/v1/get_due_books.php";
+            // console.log(theUrl);
+            // alert("wait");
+
+            xmlhttp.onreadystatechange = function () {
+
+                if (this.readyState == 4 && this.status == 200) {
+                    obj = JSON.parse(this.response);
+                    console.log(obj);
+                    // alert(obj.message);
+                    // location.reload();
+
+                    $('#due_today').empty();
+                    row = (' <tr class="table-manage-custom-1">\n' +
+                        '                                <th>Book Id</th>\n' +
+                        '                                <th>Book</th>\n' +
+                        '                                <th>Borrowed By</th>\n' +
+                        '                            </tr>');
+                    $('#due_today').append(row);
+
+                    obj.data.forEach(element =>{
+
+                        row = ('<tr class="table-manage-custom-1"><td>'+element.id+'</td><td>'+element.title+'</td><td>'+element.firstname+' ' + element.lastname +'</td></tr>');
+                        $('#due_today').append(row);
+                    });
+                }
+            }
+            xmlhttp.open("GET", theUrl,true);
+            xmlhttp.setRequestHeader("Content-Type", "application/json");
+            xmlhttp.send();
+
+            $("#send_reminder").click(function () {
+                var xmlhttp1 = new XMLHttpRequest();
+                var theUrl = "http://localhost/bookworm-middleware/code/v1/send_due_books_reminders.php";
+
+                xmlhttp1.onreadystatechange = function () {
+                    obj = JSON.parse(this.response);
+                    alert(obj.message);
+
+                }
+                xmlhttp1.open("GET", theUrl,false);
+                xmlhttp1.setRequestHeader("Content-Type", "application/json");
+                xmlhttp1.send();
+
+            });
+        });
+
+    </script>
 </head>
 <body>
     <!-- Header -->
@@ -99,20 +152,23 @@
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <h2 class="p-3 mt-3 mb-3 report-custom-duedate">Today's last date to return books</h2>
+                    <form>
+                    <h2 class="p-3 mt-3 mb-3 report-custom-duedate">Books due today!</h2>
                     <div class="report-custom-right">
-                        <table class="table-manage-custom">
+                        <table id="due_today" class="table-manage-custom">
                             <tr class="table-manage-custom-1">
-                                <th>Boook name</th>
-                                <th>User name</th>
+                                <th>Book Id</th>
+                                <th>Book</th>
+                                <th>Borrowed By</th>
                             </tr>
                             <tr class="table-manage-custom-1">    
                                 <td></td>
                                 <td></td>
                             </tr>
                         </table>
-                        <button type="submit" class="btn btn-custom btn-custom-1 mt-3 mb-3">Send Reminder</button> 
+                        <button id="send_reminder" type="submit" class="btn btn-custom btn-custom-1 mt-3 mb-3">Send Reminder</button>
                     </div>
+                    </form>
                  </div>
             </div>
         </div>  
