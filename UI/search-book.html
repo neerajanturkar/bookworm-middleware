@@ -53,7 +53,7 @@
                    $('#myModal').find('#isbn').html(element.isbn);
                    $('#myModal').find('#publication').html(element.publication);
                    $('#cp_table').empty();
-                   row = ('<tr><td><b>Book Id<b></td><td><b>Available</b></td></tr>');
+                   row = ('<tr><td><b>Book Id<b></td><td><b>Available</b></td><td><b>Locked</b></td><td><b>Location</b></td></tr>');
                    $('#cp_table').append(row);
                    copies.forEach(book =>{
                        var available = null;
@@ -62,7 +62,17 @@
                        }else{
                            available = "No";
                        }
-                       row = ('<tr><td>'+book.book_id+'</td><td>'+available+'</td></tr>');
+                       var locked = null
+                       if(book.is_locked == 0){
+                           locked = "Yes";
+                       }else{
+                           locked = "No";
+                       }
+                       loc_fetched = book.location;
+                       if(book.location == null){
+                           loc_fetched = "Not Available";
+                       }
+                       row = ('<tr><td>'+book.book_id+'</td><td>'+available+'</td><td>'+locked+'</td><td>'+loc_fetched+'</td></tr>');
                        $('#cp_table').append(row);
                    });
 

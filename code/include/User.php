@@ -119,6 +119,11 @@ class User
             $stmt = $this->con->prepare($sql);
             $stmt->execute();
             $result = $stmt->get_result()->fetch_assoc();
+            $sql1 = "SELECT get_count_books_borrowed_by_user(".$user_id.") as borrow_count;";
+            $stmt = $this->con->prepare($sql1);
+            $stmt->execute();
+            $res = $stmt->get_result()->fetch_assoc();
+            $result['borrow_count'] =  $res['borrow_count'];
             return $result;
         }catch (Exception $exception){
             return null;

@@ -21,8 +21,15 @@
                 if (this.readyState == 4 && this.status == 200) {
                     console.log(this.response);
                     obj = JSON.parse(this.response);
+                    if(obj.data.firstname == undefined && obj.data.lastname == undefined){
 
-                    document.getElementById("user_name").innerHTML = obj.data.firstname + "  " + obj.data.lastname;
+                    }else {
+
+                        document.getElementById("user_name").innerHTML = obj.data.firstname + "  " + obj.data.lastname;
+                    }
+                    if(obj.data.borrow_count > 0){
+                        alert(obj.data.borrow_count+" book(s) possessed by user. \nDeleting the user will result into automatic return of book.");
+                    }
 
                 }
             };

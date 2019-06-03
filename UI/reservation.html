@@ -55,7 +55,7 @@
                     obj = JSON.parse(this.response);
                     // alert(obj.data);
                     $('#book_title').value = obj.data;
-                    document.getElementById("book_title").innerHTML = obj.data;
+                    document.getElementById("book_title").innerHTML = obj.data.title;
 
                 }
             };

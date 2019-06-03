@@ -157,7 +157,10 @@
                 obj = JSON.parse(this.response);
                 // alert(obj.data);
                 $('#book_title').value = obj.data;
-                document.getElementById("book_title").innerHTML = obj.data;
+                document.getElementById("book_title").innerHTML = obj.data.title;
+                if(obj.data.is_locked == 1){
+                    alert("This book is not available to borrow!");
+                }
 
             }
         };

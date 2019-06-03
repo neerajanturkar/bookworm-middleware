@@ -157,13 +157,15 @@ class Book{
             $stmt->close();
             $dor = $result['dor'];
 
-            $sql1 = "CALL borrow_book(".$book_id.",".$user_id.",'".$doi."','".$dor."',@success,@email,@title);";
+            $sql1 = "CALL borrow_book(".$book_id.",".$user_id.",'".$doi."','".$dor."',@success,@email,@title,@message);";
             $stmt1 = $this->con->query($sql1);
 
-//            print_r($sql1);
-            $select = $this->con->query('SELECT @success,@email,@title');
+            $select = $this->con->query('SELECT @success,@email,@title,@message');
             $result = $select->fetch_assoc();
             $success = $result['@success'];
+            $message = $result['@message'];
+            $res['success'] = $success;
+            $res['message'] = $message;
 
             if($success == 1){
                 //send email
@@ -279,7 +281,7 @@ class Book{
 
             }
 
-            return $success;
+            return $res;
         }catch(Exception $ex ){
             echo $ex;
             return 0;
@@ -772,13 +774,49 @@ class Book{
         try {
             $book_id = $inputdata['book_id'];
 
-            $sql = "SELECT title from book where isbn = (SELECT  isbn from catalog where book_id = " . $book_id . ");";
+            $sql = "SELECT t1.title,t2.is_locked,t2.location from book as t1
+                    INNER JOIN catalog as t2 
+                    ON t1.isbn = t2.isbn and t2.book_id = ".$book_id.";";
 
             $stmt = $this->con->prepare($sql);
             $stmt->execute();
             $result = $stmt->get_result()->fetch_assoc();
 
-            return $result['title'];
+            return $result;
+        }catch (Exception $ex){
+            return null;
+        }
+
+
+    }
+
+    public function update_book($inputdata){
+
+        try {
+            $book_id = $inputdata['book_id'];
+            $loc = $inputdata['loc'];
+            $apply_all = $inputdata['apply_all'];
+            $is_locked = $inputdata['is_locked'];
+
+            if($is_locked == 'true'){
+                $locked = 1;
+            }else{
+                $locked = 0;
+            }
+            if($apply_all == 'true'){
+                $apply = 1;
+            }else{
+                $apply = 0;
+            }
+
+
+            $sql = "call update_book(".$book_id.",'".$loc."',".$apply.",".$locked.");";
+
+            $stmt = $this->con->query($sql);
+//            $stmt->execute();
+//            $result = $stmt->get_result()->fetch_assoc();
+
+            return true;
         }catch (Exception $ex){
             return null;
         }

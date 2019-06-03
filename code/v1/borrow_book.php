@@ -6,13 +6,13 @@ require_once dirname(__FILE__) . "/../include/Book.php";
 
         $book = new Book();
         $result = $book->borrow_book($inputdata);
-        if($result == 1){
+        if($result['success'] == 1){
             $response->success = true;
-            $response->message = "Book borrowed successfully";
+            $response->message = $result['message'];
             $response->responseCode = 200;
         }else{
             $response->success = false;
-            $response->message = "Failed to borrow book";
+            $response->message = $result['message'];
             $response->responseCode = 200;
         }
 

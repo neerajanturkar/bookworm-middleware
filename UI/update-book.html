@@ -16,53 +16,24 @@
     <script>
         $(function() {
             $("#submit").click(function() {
-                // validate and process form here
-                var e_author = localStorage.getItem("eAuthors");
-                var n_author = localStorage.getItem("nAuthors");
-                var array_existing  = e_author.split(",");
-                var array_new  = n_author.split(",");
-                var inputExisting = [];
-                var inputNew = [];
-                array_existing.forEach(function (author) {
-                    if(author.length > 0){
-                        inputExisting.push(author);
-                    }
-                });
-                array_new.forEach(function (author) {
-                    if(author.length > 0){
-                        inputNew.push(author);
-                    }
-                });
-                var strExisting = inputExisting.join(",");
-                var strNew = inputNew.join(",");
 
-                document.getElementById("e_author").value = strExisting;
-                document.getElementById("n_author").value = strNew;
-                localStorage.removeItem("eAuthors");
-                localStorage.removeItem("nAuthors");
-                // this.form.submit();
+                var book_id = document.getElementById("id").value;
+                var loc = document.getElementById("loc").value;
+                var apply_all = document.getElementById("apply_all").checked;
+                var is_locked = document.getElementById("is_locked").checked;
 
-                var type = document.getElementById("type").value;
-                var    title = document.getElementById("title").value;
-                var   subtitle = document.getElementById("subtitle").value;
-                var   isbn = document.getElementById("isbn").value;
-                var   publication = document.getElementById("publication").value;
-                var  description = document.getElementById("discription").value;
-                var   published_date = document.getElementById("start").value;
-                var   language = document.getElementById("language").value;
-                var   thumbnail = document.getElementById("thumbnail").src;
-                var   n_author = strNew;
-                var   e_author = strExisting;
-                var   cnt = document.getElementById("cnt").value;
-                var page_count = document.getElementById("page_count").value;
-
+                // console.log(book_id);
+                // console.log(loc);
+                // console.log(apply_all);
+                // console.log(is_locked);
+                //
+                // alert("wait");
                 var xmlhttp = new XMLHttpRequest();
-                var theUrl = "http://localhost/bookworm-middleware/code/v1/add_book.php?type="+type+"&title="+title+"&subtitle="+subtitle+"&isbn="+isbn+
-                                    "&publication="+publication+"&description="+description+"&published_date="+published_date+"&language="+language+
-                                    "&thumnail="+thumbnail+"&page_count="+page_count+
-                                    "&n_author="+n_author+"&e_author="+e_author+"&cnt="+cnt;
+                var theUrl = "http://localhost/bookworm-middleware/code/v1/update_book.php?" +
+                    "book_id="+book_id+"&loc="+loc+"&apply_all="+apply_all+"&is_locked="+is_locked;
 
-
+                console.log(theUrl);
+                // alert("wait");
                 xmlhttp.onreadystatechange = function () {
 
                     if (this.readyState == 4 && this.status == 200) {
@@ -104,6 +75,35 @@
             };
 
             var url = "http://localhost/bookworm-middleware/code/v1/get_books.php?like="+str;
+            // alert(url);
+            xmlhttp.open("GET", url , true);
+            xmlhttp.setRequestHeader("Content-type", "application/json");
+            xmlhttp.send();
+        }
+        function getBookDetailsById(str) {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+
+                if (this.readyState == 4 && this.status == 200) {
+
+
+                    obj = JSON.parse(this.response);
+                    console.log(obj);
+                    document.getElementById("title").innerText = obj.data.title;
+                    document.getElementById("loc").value = obj.data.location;
+                    if(obj.data.is_locked == 0){
+                        document.getElementById("is_locked").checked = false;
+                    }else{
+                        document.getElementById("is_locked").checked = true;
+                    }
+
+
+
+
+                }
+            };
+
+            var url = "http://localhost/bookworm-middleware/code/v1/get_book_by_id.php?book_id="+str;
             // alert(url);
             xmlhttp.open("GET", url , true);
             xmlhttp.setRequestHeader("Content-type", "application/json");
@@ -187,59 +187,78 @@
                 <div class="col-sm-6">
                     <div id="add_book_form" class="add-book-custom">
                         <form id="addbook" action="">
-                            
                             <div class="form-group">
-                                <label for="isbn">ISBN</label>
-                                <input type="number" class="form-control" required id="isbn" oninput="getBookDetails(this.value);" name="isbn" >
+                            <label for="id">Book Id</label>
+                            <input type="number" class="form-control" required id="id" oninput="getBookDetailsById(this.value);" name="isbn" >
+                            <label id="title"></label>
                             </div>
                             <div class="form-group">
-                                <label for="title">Title</label>
-                                <input type="text" class="form-control mt-3 mb-3" required id="title" name="title">
+                                <label for="loc">Location</label>
+                                <input type="text" class="form-control" id="loc"  name="location" >
+
+                                    <input type="checkbox"  id="apply_all">
+                                    <label for="apply_all">Apply to All</label>
+
                             </div>
                             <div class="form-group">
-                                <label for="subtitle">Subtitle</label>
-                                <input type="text" class="form-control" id="subtitle" name="subtitle">
+
+                                <input type="checkbox"  id="is_locked">
+                                <label for="is_locked">Locked</label>
                             </div>
-                            <div class="form-group">
-                                <label for="publication">Publication</label>
-                                <input type="text" class="form-control mt-3 mb-3" id="publication" name="publication">
-                            </div>
-                            <div class="form-group">
-                                <label for="start">Publication date</label>
-                                <input type="date" id="start" class="mt-3 mb-3" name="published_date" value="2018-07-22">
-                            </div>
-                            <select name="type" id="type" class="custom-select mb-3">
-                                <option value="0" selected>Type</option>
-                                <option value="1">Purchase</option>
-                                <option value="2">Donate</option>
-                                <option value="3">Loan</option>
-                            </select>
-                            <div class="form-group">
-                                <label for="discription">Description</label>
-                                <textarea class="form-control mt-3 mb-3" rows="5" id="discription" name="description"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="language">Language</label>
-                                <input type="text" class="form-control mt-3 mb-3" id="language" name="language">
-                            </div>
-                            <div class="form-group">
-                                <label for="authors">Authors</label>
-                                <input type="text" class="form-control" required id="authors" onchange="showExistingAuthors(this.value);" name="authors" value=" ">
-                                <input type="text" class="form-control " hidden id="e_author" name="e_author" >
-                                <input type="text" class="form-control" hidden id="n_author" name="n_author" >      
-                            </div>
-                            <div class="form-group">
-                                <label for="page_count">Page Count</label>
-                                <input type="text" class="form-control mt-3 mb-3"  id="page_count" name="page_count" > 
-                            </div>
+
+
+
+                            <!--                                <input type="text" class="form-control mt-3 mb-3" required id="title" name="title">-->
+<!--                            <div class="form-group">-->
+<!--                                <label for="isbn">ISBN</label>-->
+<!--                                <input type="number" class="form-control" required id="isbn" oninput="getBookDetails(this.value);" name="isbn" >-->
+<!--                            </div>-->
+<!--                            <div class="form-group">-->
+<!--                                <label for="title">Title</label>-->
+<!--                                <input type="text" class="form-control mt-3 mb-3" required id="title" name="title">-->
+<!--                            </div>-->
+<!--                            <div class="form-group">-->
+<!--                                <label for="subtitle">Subtitle</label>-->
+<!--                                <input type="text" class="form-control" id="subtitle" name="subtitle">-->
+<!--                            </div>-->
+<!--                            <div class="form-group">-->
+<!--                                <label for="publication">Publication</label>-->
+<!--                                <input type="text" class="form-control mt-3 mb-3" id="publication" name="publication">-->
+<!--                            </div>-->
+<!--                            <div class="form-group">-->
+<!--                                <label for="start">Publication date</label>-->
+<!--                                <input type="date" id="start" class="mt-3 mb-3" name="published_date" value="2018-07-22">-->
+<!--                            </div>-->
+<!--                            <select name="type" id="type" class="custom-select mb-3">-->
+<!--                                <option value="0" selected>Type</option>-->
+<!--                                <option value="1">Purchase</option>-->
+<!--                                <option value="2">Donate</option>-->
+<!--                                <option value="3">Loan</option>-->
+<!--                            </select>-->
+<!--                            <div class="form-group">-->
+<!--                                <label for="discription">Description</label>-->
+<!--                                <textarea class="form-control mt-3 mb-3" rows="5" id="discription" name="description"></textarea>-->
+<!--                            </div>-->
+<!--                            <div class="form-group">-->
+<!--                                <label for="language">Language</label>-->
+<!--                                <input type="text" class="form-control mt-3 mb-3" id="language" name="language">-->
+<!--                            </div>-->
+<!--                            <div class="form-group">-->
+<!--                                <label for="authors">Authors</label>-->
+<!--                                <input type="text" class="form-control" required id="authors" onchange="showExistingAuthors(this.value);" name="authors" value=" ">-->
+<!--                                <input type="text" class="form-control " hidden id="e_author" name="e_author" >-->
+<!--                                <input type="text" class="form-control" hidden id="n_author" name="n_author" >      -->
+<!--                            </div>-->
+<!--                            <div class="form-group">-->
+<!--                                <label for="page_count">Page Count</label>-->
+<!--                                <input type="text" class="form-control mt-3 mb-3"  id="page_count" name="page_count" > -->
+<!--                            </div>-->
                             <button type="reset" class="btn btn-custom mt-3 mb-3">Clear</button>
                             <button type="submit" id="submit" name="submit" class="btn btn-custom mt-3 mb-3">Update</button>
                          </form>
                      </div>
                 </div>
-                <div class="col-sm-6">
-                    <img  id="thumbnail" name="thumbnail" class="img-lookup-custom" src="images/Image-1.png">
-                </div>
+
             </div>
         </div>     
     </div>
