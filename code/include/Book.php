@@ -1013,5 +1013,34 @@ class Book{
             return null;
         }
     }
+    public function most_borrowed_books($inputdata){
+
+        $start_date = $inputdata['start_date'];
+        $end_date = $inputdata['end_date'];
+
+
+        $sql = "SELECT t3.title , count(t1.id) as borrow_count FROM `borrow` as t1
+                    INNER JOIN catalog as t2
+                    ON t1.book_id = t2.book_id
+                    INNER JOIN book as t3
+                    ON t2.isbn = t3.isbn
+                    WHERE t1.`created_on` BETWEEN '".$start_date."' and '".$end_date."'
+                    GROUP BY t3.isbn
+                    ORDER BY borrow_count DESC
+                    LIMIT 5;";
+
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        $data = array();
+
+        foreach($result as $row){
+            array_push($data,$row);
+        }
+        return $data;
+
+    }
 }
 ?>

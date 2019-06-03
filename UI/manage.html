@@ -63,6 +63,44 @@
                 xmlhttp1.send();
 
             });
+
+            $("#report").click(function () {
+               var startDate = document.getElementById("start").value;
+               var endDate = document.getElementById("end").value;
+                var xmlhttp1 = new XMLHttpRequest();
+                var theUrl = "http://localhost/bookworm-middleware/code/v1/report_most_borrowed_books.php?start_date="+startDate+"&end_date="+endDate;
+
+                xmlhttp1.onreadystatechange = function () {
+                    obj = JSON.parse(this.response);
+                    console.log(obj);
+                    // alert(obj.message);
+
+                    var modal = document.getElementById("myModal");
+                    modal.style.display = "block";
+                    var row;
+
+
+
+
+                            $('#cp_table').empty();
+                            row = ('<tr><td><b>Title<b></td><td><b>Times Borrowed</b></td></tr>');
+                            $('#cp_table').append(row);
+                            obj.data.forEach(book =>{
+
+                                row = ('<tr><td>'+book.title+'</td><td>'+book.borrow_count+'</td></tr>');
+                                $('#cp_table').append(row);
+                            });
+
+
+             
+
+                }
+                xmlhttp1.open("GET", theUrl,false);
+                xmlhttp1.setRequestHeader("Content-Type", "application/json");
+                xmlhttp1.send();
+
+
+            });
         });
 
     </script>
@@ -141,13 +179,13 @@
                         
                         <div class=" input-group input-daterange">
                             <label for="start" class="mt-3 mb-3 padding-right">Date Range</label>
-                            <input type="date" class="form-control mt-3 mb-3 " min="2015-01-01" max="2022-01-01">
+                            <input type="date" id="start" class="form-control mt-3 mb-3 " min="2015-01-01" max="2022-01-01">
                             <div class="input-group-addon mt-3 mb-3 padding-right-left">to</div>
-                            <input type="date" class="form-control mt-3 mb-3 " min="2015-01-01" max="2022-01-01">
+                            <input type="date" id="end" class="form-control mt-3 mb-3 " min="2015-01-01" max="2022-01-01">
                             
                         </div>
                         <button type="submit" class="btn btn-custom btn-custom-1  mt-3 mb-3">Clear</button>
-                        <button type="submit" class="btn btn-custom btn-custom-1 mt-3 mb-3">Submit</button>                              
+                        <button type="submit" data-toggle="modal" data-target="#myModal" id="report" class="btn btn-custom btn-custom-1 mt-3 mb-3">Submit</button>
                         
                     </div>
                 </div>
@@ -172,6 +210,34 @@
                  </div>
             </div>
         </div>  
+    </div>
+
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Most Borrowed Books</h4>
+                </div>
+                <div class="modal-body">
+
+
+                    <table id="cp_table" class="table table-borderless">
+                        <tbody id="copies_table1">
+<!--                        <tr>-->
+<!--                            <td><b>Copies</b></td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td><b>Id</b></td>-->
+<!--                            <td><b>Available</b></td>-->
+<!--                        </tr>-->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Footer -->
