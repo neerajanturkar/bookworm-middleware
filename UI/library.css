@@ -188,10 +188,10 @@ button[type=submit]:focus{
     margin-left: 20px;
 }
 .img-lookup-custom {
-    width: 65%;
-    height: 18%;
-    margin-top: 92px;
-    /* margin-left: 20px; */
+    width: 50%;
+    height: 20%;
+    margin-top: 35px;
+    
     float: right;
 }
 .container-fluid-bgcolor{
@@ -352,7 +352,7 @@ div#delete-book-right {
 }
 .report-custom-left {
     
-    padding-top: 40px;
+    padding-top: 0px;
 }
 .report-custom-right {
     float: right;
@@ -374,4 +374,14 @@ h2.p-3.mt-3.mb-3.report-custom-duedate {
 }
 .btn-custom-1{
     margin-top: 2%;
+}
+.input-group.input-daterange {
+    /* display: none; */
+    display: inline;
+}
+input#start{
+    width: 50%;
+}
+input#end{
+    width: 50%;
 }
