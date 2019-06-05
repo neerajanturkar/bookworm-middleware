@@ -243,6 +243,10 @@ input[type=search]:focus {
 h2.padding-bottom-custom {
     padding-bottom: 40px;
 }
+h2.pick-up {
+    margin-top: 50px;
+    margin-bottom: 45px;
+}
 
 /* search list */
 
