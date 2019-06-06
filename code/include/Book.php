@@ -644,14 +644,15 @@ class Book{
             $user_id = $inputdata['user_id'];
             $reservation_date = $inputdata['reservation_date'];
 
-            $sql = "CALL reserve_book(".$book_id.",".$user_id.",'".$reservation_date."',@success,@email,@title);";
+            $sql = "CALL reserve_book(".$book_id.",".$user_id.",'".$reservation_date."',@success,@email,@title,@code);";
 //            print_r($sql);die;
             $stmt = $this->con->query($sql);
-            $select = $this->con->query('SELECT @success,@email,@title');
+            $select = $this->con->query('SELECT @success,@email,@title,@code');
             $result = $select->fetch_assoc();
             $success = $result['@success'];
             $email = $result['@email'];
             $title = $result['@title'];
+            $pickup_code = $result['@code'];
             $subject = "Book ".$title." reserved successfully";
             if($success == 1){
                 $html = '<!DOCTYPE html>
@@ -728,15 +729,17 @@ class Book{
                                         <div >
                                                 <table class="center" border="3">
                                                         <tr>
-                                                            <th colspan="2" ><h4>Book Reserved!!</h4></th>
+                                                            <th colspan="3" ><h4>Book Reserved!!</h4></th>
                                                         </tr>
                                                         <tr>
                                                                 <th> Book Name </th> 
                                                                 <th>Date</th>
+                                                                <th>Pick Up Code</th>
                                                         </tr>
                                                         <tr>
                                                                 <td>'.$title.'</td>
                                                                 <td>'.$reservation_date.'</td>
+                                                                <td>'.$pickup_code.'</td>
                                                         </tr>
                                                         
                                                     
@@ -1079,6 +1082,31 @@ class Book{
         }
         return $data;
 
+    }
+    public function check_pickup_code_is_valid($inputdata){
+        $code = $inputdata['pickup_code'];
+
+        $sql = "SELECT check_pickup_code_valid(".$code.") as valid;";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute();
+
+        $result = $stmt->get_result()->fetch_assoc();
+        return $result['valid'];
+
+
+    }
+    public  function pickup_book($inputdata){
+        $code = $inputdata['pickup_code'];
+        $sql = "CALL pickup_book(".$code.",@success,@message);";
+        $stmt1 = $this->con->query($sql);
+
+        $select = $this->con->query('SELECT @success,@message');
+        $result = $select->fetch_assoc();
+        $success = $result['@success'];
+        $message = $result['@message'];
+        $res['success'] = $success;
+        $res['message'] = $message;
+        return $res;
     }
 }
 ?>

@@ -44,6 +44,29 @@
                 xmlhttp.send();
 
             });
+
+            $("#p_submit").click(function () {
+                var code = document.getElementById("code").value;
+                var xmlhttp = new XMLHttpRequest();
+                var theUrl = "http://localhost/bookworm-middleware/code/v1/pickup_book.php?pickup_code=" + code;
+
+
+                xmlhttp.onreadystatechange = function () {
+
+                    if (this.readyState == 4 && this.status == 200) {
+                        console.log(this.response);
+                        obj = JSON.parse(this.response);
+                        alert(obj.message);
+                        location.reload();
+
+                    }
+
+                }
+                xmlhttp.open("GET", theUrl, false);
+                xmlhttp.setRequestHeader("Content-Type", "application/json");
+                xmlhttp.send();
+
+            });
             return false;
         });
 
@@ -103,6 +126,36 @@
             xmlhttp.setRequestHeader("Content-type", "application/json");
             xmlhttp.send();
         }
+        function checkPickUpCode(str) {
+
+            if (str.length != 6) {
+                document.getElementById("code_validity").innerHTML = "";
+                return;
+            }else {
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function () {
+                    var availableText;
+                    if (this.readyState == 4 && this.status == 200) {
+                        console.log(this.response);
+                        obj = JSON.parse(this.response);
+
+                        if (obj.valid == 1) {
+                            availableText = "Code Valid";
+                        } else {
+                            availableText = "Invalid Code.";
+                        }
+                        document.getElementById("code_validity").innerHTML = availableText;
+
+                    }
+                };
+
+                var url = "http://localhost/bookworm-middleware/code/v1/check_pickup_code_is_valid.php?pickup_code=" + str;
+                xmlhttp.open("GET", url, true);
+                xmlhttp.setRequestHeader("Content-type", "application/json");
+                xmlhttp.send();
+            }
+        }
+
 
     </script>
 </head>
@@ -204,9 +257,10 @@
                 <h2 class="pick-up">Pick Up</h2>
                 <form>
                     <div class="form-group form-group-custom">
-                    <label for="userid">User Id</label>
-                    <input type="number" class="form-control mt-3 mb-3" id="user-id">
-                    <button id="submit" type="submit" class="btn btn-custom mt-3 mb-3">Submit</button>
+                    <label for="userid">Pickup Code</label>
+                    <input type="number" class="form-control mt-3 mb-3" oninput="checkPickUpCode(this.value)" id="code">
+                    <button id="p_submit" type="submit" class="btn btn-custom mt-3 mb-3">Submit</button>
+                        <label id="code_validity"></label>
                     </div>
                 </form>
             </div>
