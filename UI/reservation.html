@@ -155,6 +155,26 @@
                 xmlhttp.send();
             }
         }
+        function checkUserReserve(str){
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log(this.response);
+                    obj = JSON.parse(this.response);
+                    if(obj.allowed == 0){
+                        alert("User is blocked from book reservation");
+                    }
+
+
+                }
+            };
+
+            var url = "http://localhost/bookworm-middleware/code/v1/check_user_reserve.php?user_id=" + str;
+            xmlhttp.open("GET", url, true);
+            xmlhttp.setRequestHeader("Content-type", "application/json");
+            xmlhttp.send();
+        }
 
 
     </script>
@@ -241,7 +261,7 @@
                         </div>
                         <div class="form-group form-group-custom">
                             <label for="userid">User Id</label>
-                            <input type="number" class="form-control" id="userid" oninput="showUserName(this.value);" name="userid">
+                            <input type="number" class="form-control" id="userid" onchange="checkUserReserve(this.value)" oninput="showUserName(this.value);" name="userid">
                             <label id="user_name"></label>
                         </div>
                         <div class="form-group">
@@ -271,7 +291,7 @@
 
 <!-- Footer -->
 
-<footer>
+<footer class="res-footer">
     <p class="p-footer mt-3">@2019 All rights resevered by Library system</p>
 </footer>
 

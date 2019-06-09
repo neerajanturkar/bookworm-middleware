@@ -1108,5 +1108,17 @@ class Book{
         $res['message'] = $message;
         return $res;
     }
+
+    public function check_user_reserve($inputdata){
+        $user_id = $inputdata['user_id'];
+
+        $sql = "SELECT check_user_reserve(".$user_id.") as allowed;";
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_assoc();
+
+
+        return $result['allowed'];
+    }
 }
 ?>

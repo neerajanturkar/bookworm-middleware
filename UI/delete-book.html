@@ -40,7 +40,7 @@
                     console.log(this.response);
                     obj = JSON.parse(this.response);
 
-                    document.getElementById("book_name_id").innerHTML = obj.data;
+                    document.getElementById("book_name_id").innerHTML = obj.data.title;
 
                 }
             };
@@ -193,7 +193,7 @@
 
     <!-- Footer -->
 
-            <footer class="footer-custom">
+            <footer class="delete-footer">
                 <p class="p-footer mt-3">@2019 All rights resevered by Library system</p>
             </footer>
         
