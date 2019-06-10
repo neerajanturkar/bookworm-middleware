@@ -27,7 +27,7 @@
                 var xmlhttp = new XMLHttpRequest();
                 var theUrl = "http://localhost/bookworm-middleware/code/v1/reserve_book.php?book_id=" + book_id + "&user_id=" + user_id + "&reservation_date=" + reservation_date;
 
-
+                
                 xmlhttp.onreadystatechange = function () {
 
                     if (this.readyState == 4 && this.status == 200) {

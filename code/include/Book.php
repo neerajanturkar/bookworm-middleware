@@ -644,15 +644,16 @@ class Book{
             $user_id = $inputdata['user_id'];
             $reservation_date = $inputdata['reservation_date'];
 
-            $sql = "CALL reserve_book(".$book_id.",".$user_id.",'".$reservation_date."',@success,@email,@title,@code);";
+            $sql = "CALL reserve_book(".$book_id.",".$user_id.",'".$reservation_date."',@success,@email,@title,@code,@message);";
 //            print_r($sql);die;
             $stmt = $this->con->query($sql);
-            $select = $this->con->query('SELECT @success,@email,@title,@code');
+            $select = $this->con->query('SELECT @success,@email,@title,@code,@message');
             $result = $select->fetch_assoc();
             $success = $result['@success'];
             $email = $result['@email'];
             $title = $result['@title'];
             $pickup_code = $result['@code'];
+            $message = $result['@message'];
             $subject = "Book ".$title." reserved successfully";
             if($success == 1){
                 $html = '<!DOCTYPE html>
@@ -894,8 +895,9 @@ class Book{
                     ON t2.isbn = t3.isbn 
                     INNER JOIN user as t4 
                     ON t1.user_id = t4.id
-                    AND t1.`dor` = '".$today."' AND t1.actual_dor is null;";
+                    AND t1.`dor` = CURRENT_DATE AND t1.actual_dor is null;";
             $stmt = $this->con->query($sql);
+//            print_r($sql);
             if($stmt === false) {
                 trigger_error('Wrong SQL: ' . $sql . ' Error: ' . $this->con->errno . ' ' . $this->con->error, E_USER_ERROR);
             }
@@ -925,7 +927,7 @@ class Book{
                     ON t2.isbn = t3.isbn 
                     INNER JOIN user as t4 
                     ON t1.user_id = t4.id
-                    AND t1.`dor` = '".$today."' AND t1.actual_dor is null;";
+                    AND t1.`dor` = CURRENT_DATE AND t1.actual_dor is null;";
             $stmt = $this->con->query($sql);
             if($stmt === false) {
                 trigger_error('Wrong SQL: ' . $sql . ' Error: ' . $this->con->errno . ' ' . $this->con->error, E_USER_ERROR);

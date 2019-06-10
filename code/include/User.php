@@ -150,7 +150,7 @@ class User
 
             $data = array();
              foreach($details as $row){
-                 $sql = "SELECT t1.title , (CASE WHEN t3.actual_dor is null then 1 else 0 end) as book_possesed
+                 $sql = "SELECT t1.title , t2.book_id as book_id,(CASE WHEN t3.actual_dor is null then 1 else 0 end) as book_possesed
                             FROM book AS t1
                             INNER JOIN catalog AS t2
                             ON t1.isbn = t2.isbn
